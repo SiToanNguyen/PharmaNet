@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Product List{% endblock %}
+    {% block content %}
+
+    <!-- Button to open the "Add New Product" page -->
+    <a href="{{ url_for('product.add_product_page') }}">
+        <button id="openAddProductPageBtn">Add a new product</button>
+    </a>
+
+    <h2>Product List</h2>
+    <table border="1">
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Manufacturer</th>
+            <th>Price (€)</th>
+            <th>Actions</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.manufacturer }}</td>
+            <td>{{ product.price }}</td>
+            <td>
+                <!-- Button to open the "Edit Product" page -->
+                <a href="{{ url_for('product.edit_product', product_id=product.id) }}">
+                    <button>Edit</button>
+                </a>
+                <!-- Button to remove a product -->
+                <button onclick="removeProduct('{{ product.id }}')">Remove</button>
+            </td>            
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{{ url_for('index') }}">Return to the main page</a>
+
+    <!-- JavaScript to handle product removal -->
+    <script>
+        function removeProduct(productId) {
+            fetch(`/product/remove/${productId}`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Product removed successfully!");
+                    window.location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert("Error removing product.");
+                }
+            })
+            .catch(error => {
+                alert("Error: " + error);
+            });
+        }
+    </script>
+
+    {% endblock %}
+</body>
+</html>

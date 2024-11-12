@@ -1,0 +1,218 @@
+/* General Body Styles */
+body {
+    font-family: Arial, sans-serif; 
+    background-color: #242424; 
+    color: #d1d1d1; 
+    margin: 0;
+    padding: 20px; 
+}
+
+/* Header Styles */
+header {
+    background-color: #383838; 
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px; 
+}
+
+h1 {
+    margin: 0;
+    color: #f0f0f0;
+}
+
+/* Link Styles */
+a {
+    color: #90caf9; 
+    text-decoration: none; 
+}
+
+a:hover {
+    text-decoration: underline; 
+}
+
+/* Main Content Styles */
+main {
+    padding: 20px; 
+    background-color: #2a2a2a;
+    border-radius: 5px; 
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left; 
+    border: 1px solid #555;
+}
+
+th {
+    background-color: #444; 
+    color: #e0e0e0; 
+}
+
+tr:nth-child(even) {
+    background-color: #333; 
+}
+
+tr:hover {
+    background-color: #4d4d4d;
+}
+
+/* Activity Log Styles */
+.activity-log {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0;
+}
+
+.activity-log li {
+    background-color: #383838; 
+    border: 1px solid #555;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Space inside each entry */
+    margin: 10px 0; /* Margin between entries */
+}
+
+.activity-log li:hover {
+    background-color: #4d4d4d; /* Lighter background on hover */
+}
+
+/* Responsive Tables */
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block; 
+    }
+
+    th {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+    }
+
+    td {
+        text-align: right; 
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 50%;
+        padding-left: 10px;
+        text-align: left;
+        font-weight: bold;
+        color: #90caf9;
+    }
+}
+
+/* Center Alignment */
+.center-align {
+    text-align: center;
+    margin-top: 20px;
+    color: #d1d1d1;
+}
+
+/* Navigation Menu Styles */
+.nav-menu {
+    list-style-type: none;  /* Remove default list styling */
+    padding: 10px 0;        
+    margin: 0 0 20px 0;     /* Remove default margin, add space below the menu */
+    display: flex;          /* Use flexbox for horizontal alignment */
+    justify-content: center; /* Center the menu items */
+    background-color: #383838;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    border-radius: 5px;      /* Round corners */
+}
+
+.nav-menu li {
+    margin: 0 15px;         /* Horizontal spacing between items */
+}
+
+.nav-button {
+    text-decoration: none;   /* Remove underline from links */
+    padding: 12px 20px;     /* Add padding around links */
+    color: #90caf9;        
+    border: none;           
+    border-radius: 5px;     /* Rounded corners */
+    font-weight: bold;       /* Bold text for emphasis */
+}
+
+.nav-button:hover {
+    background-color: #4d4d4d; 
+    color: #ffffff;            
+}
+
+/* Form Styles (For Add and Edit Product Forms) */
+.product-form input,
+.product-form textarea {
+    width: calc(100% - 20px); /* Ensure some space on the right */
+    padding: 10px; 
+    margin-bottom: 20px; 
+    border-radius: 5px;
+    border: 1px solid #555; 
+    background-color: #444;
+    color: #d1d1d1; 
+    box-sizing: border-box; /* Ensures padding doesn't affect the width */
+    margin-top: 10px;      /* Add space above the textboxes */
+}
+
+/* Center buttons */
+.product-form .buttons {
+    text-align: center; /* Center the buttons */
+}
+
+.product-form .buttons button {
+    margin: 0 10px; /* Add horizontal space between buttons */
+}
+
+/* Responsive Design Adjustments for Navigation Menu */
+@media (max-width: 600px) {
+    .nav-menu {
+        flex-direction: column; /* Stack items vertically on small screens */
+    }
+
+    .nav-menu li {
+        margin: 10px 0; /* Vertical spacing */
+    }
+}
+
+/* Form Styles (For Add and Edit Product Forms) */
+.product-form label {
+    display: block;        /* Ensure labels are on a new line */
+    margin-bottom: 5px;    /* Space between label and input */
+}
+
+/* Button Styles */
+button {
+    background-color: #4d90f0; /* Darker blue background for default */
+    color: white; /* White text */
+    border: none; /* Remove default border */
+    padding: 12px 20px; /* Add padding to buttons */
+    font-size: 16px; /* Adjust font size */
+    font-weight: bold; /* Bold text */
+    border-radius: 5px; /* Round corners */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+/* Button Hover Effects */
+button:hover {
+    background-color: #90caf9; /* Lighter blue on hover */
+}
+
+/* Align buttons in the center (applies to forms) */
+.product-form .buttons {
+    text-align: center; /* Center the buttons */
+}
+
+.product-form .buttons button {
+    margin: 0 10px; /* Horizontal space between buttons */
+}

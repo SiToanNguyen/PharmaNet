@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Log</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Activity Log{% endblock %}
+    {% block content %}
+
+    <h1>Activity Log</h1>
+    <ul class="activity-log">
+        {% for entry in log_entries[::-1] %}  <!-- Reverse the list -->
+        <li>{{ entry }}</li>
+        {% endfor %}
+    </ul>
+    <br>
+    <a href="{{ url_for('index') }}">Return to the main page</a>
+
+    {% endblock %}
+</body>
+</html>
