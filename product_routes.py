@@ -61,6 +61,10 @@ def handle_add_product(form_data):
             c.execute('INSERT INTO products (name, manufacturer, price, description) VALUES (?, ?, ?, ?)',
                       (product_name, manufacturer, price, description))
             conn.commit()
+            product_id = c.lastrowid  # Get the newly added product's ID
+
+        # Write log when adding a new product
+        log_activity(f"added {product_name} (ID: {product_id})")
         return None  # Return None if there is no error
     except Exception as e:
         print("Database error:", e)
@@ -92,6 +96,9 @@ def edit_product(product_id):
             c.execute('UPDATE products SET name = ?, manufacturer = ?, price = ?, description = ? WHERE id = ?',
                       (product_name, manufacturer, price, description, product_id))
             conn.commit()
+
+        # Write log when editing a product
+        log_activity(f"edited {product_name} (ID: {product_id})")
         
         return redirect(url_for('product.product_page'))
 
@@ -103,8 +110,14 @@ def edit_product(product_id):
 def remove_product(product_id):
     with get_db_connection() as conn:
         c = conn.cursor()
+        c.execute('SELECT name FROM products WHERE id = ?', (product_id,))
+        product_name = c.fetchone()
         c.execute('UPDATE products SET removed = 1 WHERE id = ?', (product_id,))
         conn.commit()
+
+    # Log the removal
+    if product_name:
+        log_activity(f"removed {product_name[0]} (ID: {product_id})")
     return jsonify({"status": "success"}), 200
 
 def get_all_products():

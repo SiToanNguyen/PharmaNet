@@ -21,8 +21,8 @@ def login():
         if user:
             session['username'] = username  # Store username in the session
 
-            # Log successful login
-            log_activity(f'{username} logged in.')
+            # Write log when loggin in
+            log_activity(f'logged in.')
 
             return redirect(url_for('index'))
         else:
@@ -32,10 +32,9 @@ def login():
 
 @login_bp.route('/logout')
 def logout():
+    # Write log when logging out
+    log_activity(f'logged out.')
+    # Must write the log before logging out, otherwise there is no username       
     username = session.pop('username', None)  # Remove username from session
-
-    # Log successful logout
-    if username:
-        log_activity(f'{username} logged out.')
 
     return redirect(url_for('login.login'))

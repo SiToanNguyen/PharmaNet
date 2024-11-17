@@ -1,5 +1,6 @@
 # Here are the common functions that may be used in different files
 import sqlite3
+from flask import session
 from datetime import datetime
 
 # Initialize the database
@@ -77,6 +78,7 @@ def get_db_connection():
 
 # Write an action in the activity log
 def log_activity(activity):
+    username = session.get('username', 'Unknown User')
     timestamp = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
     with open('activity_log.txt', 'a') as f:
-        f.write(f'{timestamp} {activity}\n')
+        f.write(f'{timestamp} {username} {activity}\n')
