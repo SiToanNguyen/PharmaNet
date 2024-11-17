@@ -44,13 +44,27 @@ def handle_add_product(form_data):
     # Check if the product name already exists in the database
     with get_db_connection() as conn:
         c = conn.cursor()
-        c.execute('SELECT id FROM products WHERE LOWER(name) = LOWER(?)', (product_name,))
+        c.execute('SELECT id, removed FROM products WHERE LOWER(name) = LOWER(?)', (product_name.lower(),))
         existing_product = c.fetchone()
 
         if existing_product:
-            print(f"Existing product check for {product_name}: Found duplicate")
-            # If a product with the same name already exists, return an error message
-            return "A product with this name already exists. Please choose a different name."
+            product_id, removed_status = existing_product
+            if removed_status:  # If the product is marked as removed
+                # Reactivate the product
+                c.execute('''
+                    UPDATE products 
+                    SET manufacturer = ?, price = ?, description = ?, removed = 0
+                    WHERE id = ?
+                ''', (manufacturer, price, description, product_id))
+                conn.commit()
+
+                # Write log when reactivating a product
+                log_activity(f"reactivated {product_name} (ID: {product_id})")
+                return None  # No error
+            else:
+                print(f"Existing product check for {product_name}: Found duplicate")
+                # If a product with the same name already exists, return an error message
+                return "A product with this name already exists. Please choose a different name."
         else:
             print(f"Existing product check for {product_name}: No duplicate found")
 

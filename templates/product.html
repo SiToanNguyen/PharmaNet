@@ -28,7 +28,7 @@
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.manufacturer }}</td>
-            <td>{{ product.price }}</td>
+            <td>{{ "%.2f" | format(product.price) }}</td>
             <td>
                 <!-- Button to open the "Edit Product" page -->
                 <a href="{{ url_for('product.edit_product', product_id=product.id) }}">

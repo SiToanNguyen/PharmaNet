@@ -10,9 +10,7 @@ from login_routes import login_bp
 app = Flask(__name__)
 
 app.secret_key = 'your_generated_secret_key' 
-# Flask uses the secret_key to sign cookies and other session data. 
-# This ensures that the session data cannot be tampered with. 
-# Without this key, sessions are vulnerable to attacks.
+# Replace 'your_generated_secret_key' with the real key
 
 # Use Flask Blueprint to organize the application into modular components.
 # They allow to split the application into smaller parts, making the code easier to manage, maintain, and scale.
