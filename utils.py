@@ -9,7 +9,7 @@ def init_db():
     c = conn.cursor()
 
     # Delete the database when start
-    c.execute('DROP TABLE IF EXISTS products')
+    # c.execute('DROP TABLE IF EXISTS products')
 
     # Create the products table
     c.execute('''
