@@ -9,8 +9,9 @@ def init_db():
     c = conn.cursor()
 
     # Delete the database when start
-    #c.execute('DROP TABLE IF EXISTS products')
+    c.execute('DROP TABLE IF EXISTS products')
 
+    # Create the products table
     c.execute('''
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,11 +50,12 @@ def init_db():
         )
     ''')
 
-    # Create a default admin user if not exists
+    # Create the admin user
     c.execute('''
-        INSERT OR IGNORE INTO users (username, password)
+        INSERT INTO users (username, password)
         VALUES (?, ?)
-    ''', ('admin', '12345'))
+        ON CONFLICT(username) DO UPDATE SET password = excluded.password
+    ''', ("admin", "toan5987ng"))
 
     # Create the price history table
     c.execute('''
