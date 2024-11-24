@@ -14,7 +14,7 @@ def login():
         # Check credentials in the database
         conn = get_db_connection()
         c = conn.cursor()
-        c.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
+        c.execute('SELECT * FROM users WHERE username = ? AND password = ? AND removed = 0', (username, password))
         user = c.fetchone()
         conn.close()
 

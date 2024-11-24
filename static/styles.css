@@ -150,7 +150,14 @@ tr:hover {
     color: #ffffff;            
 }
 
-/* Form Styles (For Add and Edit Product Forms) */
+/* Style for disabled input fields */
+input[readonly] {
+    background-color: #f0f0f0; /* Bright grey */
+    color: #888; /* Darker grey for text */
+    cursor: not-allowed; /* Change cursor to indicate the field is not editable */
+}
+
+/* Form Styles (For Add and Edit Forms) */
 .form input,
 .form textarea {
     width: calc(100% - 20px); /* Ensure some space on the right */
@@ -184,7 +191,7 @@ tr:hover {
     }
 }
 
-/* Form Styles (For Add and Edit Product Forms) */
+/* Form Styles (For Add and Edit Forms) */
 .form label {
     display: block;        /* Ensure labels are on a new line */
     margin-bottom: 5px;    /* Space between label and input */
@@ -217,9 +224,43 @@ button:hover {
     margin: 0 10px; /* Horizontal space between buttons */
 }
 
-/* Style for disabled input fields */
-input:disabled {
-    background-color: #f0f0f0; /* Bright grey */
-    color: #888; /* Darker grey for text */
-    cursor: not-allowed; /* Change cursor to indicate the field is not editable */
+/* Dropdown (select) Styles */
+.form select {
+    width: calc(100% - 20px); /* Same width as inputs */
+    padding: 10px; 
+    margin-bottom: 20px; 
+    border-radius: 5px;
+    border: 1px solid #555; 
+    background-color: #444; /* Match input background */
+    color: #d1d1d1; /* Match input text color */
+    box-sizing: border-box; /* Consistent width calculation */
+    margin-top: 10px; /* Space above the dropdown */
+    appearance: none; /* Remove default browser arrow */
+    background-image: url("/images/arrow-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px; /* Size of the arrow */
+}
+
+.form select:focus {
+    border-color: #90caf9; /* Highlight border */
+    outline: none;
+}
+
+/* Dropdown arrow customization for consistent appearance */
+.form select::-ms-expand {
+    display: none; /* Hide default arrow in IE/Edge */
+}
+
+/* Optional: Adjust hover or focus styles */
+.form select:focus {
+    border-color: #90caf9; /* Highlight on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Optional: Responsive Adjustments */
+@media (max-width: 600px) {
+    .form select {
+        font-size: 14px; /* Slightly smaller text on small screens */
+    }
 }

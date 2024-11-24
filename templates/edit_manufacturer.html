@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Manufacturer</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Manufacturer List{% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Edit Manufacturer</h2>
+
+        <form class="form" action="{{ url_for('manufacturer.edit_manufacturer', manufacturer_id=manufacturer.id) }}" method="POST">
+            <input type="hidden" id="manufacturerId" name="manufacturer_id" value="{{ manufacturer.id }}">
+
+            <label for="manufacturerName">Manufacturer Name</label>
+            <input type="text" id="manufacturerName" name="manufacturer_name" value="{{ manufacturer.name }}" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3">{{ manufacturer.description }}</textarea>
+
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Update Manufacturer</button>
+                <a href="{{ url_for('manufacturer.manufacturer_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+    </main>
+
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>

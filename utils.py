@@ -7,46 +7,14 @@ from datetime import datetime
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-
-    # Delete the database when start
-    # c.execute('DROP TABLE IF EXISTS products')
-
-    # Create the products table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE,
-            manufacturer TEXT,
-            price REAL,
-            description TEXT,
-            removed BOOLEAN NOT NULL DEFAULT 0
-        )
-    ''')
-
-    # Create the manufacturers table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS manufacturers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE,
-            description TEXT
-        )
-    ''')
-
-    # Create the warehouse inventory table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS warehouse (
-            id INTEGER PRIMARY KEY,
-            quantity INTEGER NOT NULL DEFAULT 0,
-            FOREIGN KEY (id) REFERENCES products (id)
-        )
-    ''')
     
     # Create the users table
     c.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            removed BOOLEAN NOT NULL DEFAULT 0 -- Do not remove the user in database, because it is needed to generate reports dynamically
         )
     ''')
 
@@ -57,6 +25,29 @@ def init_db():
         ON CONFLICT(username) DO UPDATE SET password = excluded.password
     ''', ("admin", "toan5987ng"))
 
+    # Create the manufacturers table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS manufacturers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE,
+            description TEXT,
+            removed BOOLEAN NOT NULL DEFAULT 0 -- Do not remove the manufacturer in database, because it is needed to generate reports dynamically
+        )
+    ''')
+    
+    # Create the products table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE,
+            manufacturer_id INTEGER,  -- Foreign key for manufacturer
+            price REAL,
+            description TEXT,
+            removed BOOLEAN NOT NULL DEFAULT 0, -- Do not remove the product in database, because it is needed to generate reports dynamically              
+            FOREIGN KEY (manufacturer_id) REFERENCES manufacturers (id)
+        )
+    ''')
+
     # Create the price history table
     c.execute('''
         CREATE TABLE IF NOT EXISTS price_history (
@@ -66,6 +57,15 @@ def init_db():
             new_price REAL,
             change_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (product_id) REFERENCES products (id)
+        )
+    ''')
+
+    # Create the warehouse inventory table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS warehouse (
+            id INTEGER PRIMARY KEY,
+            quantity INTEGER NOT NULL DEFAULT 0,
+            FOREIGN KEY (id) REFERENCES products (id)
         )
     ''')
 

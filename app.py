@@ -1,7 +1,8 @@
-from flask import Flask, request, redirect, url_for, render_template, session
+from flask import Flask, request, redirect, url_for, render_template, session, send_from_directory
 from utils import init_db
 
 from user_routes import user_bp
+from manufacturer_routes import manufacturer_bp
 from product_routes import product_bp
 from import_routes import import_bp
 from export_routes import export_bp
@@ -16,6 +17,7 @@ app.secret_key = 'your_generated_secret_key'
 # Use Flask Blueprint to organize the application into modular components.
 # They allow to split the application into smaller parts, making the code easier to manage, maintain, and scale.
 app.register_blueprint(user_bp)
+app.register_blueprint(manufacturer_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(import_bp)
 app.register_blueprint(export_bp)
@@ -40,6 +42,11 @@ def inject_user():
 def index():
     username = session.get('username')
     return render_template('index.html', username=username)
+
+# For the CSS in "static" to reach the image in "images"
+@app.route('/images/<path:filename>')
+def serve_images(filename):
+    return send_from_directory('images', filename)
 
 if __name__ == '__main__':
     init_db()

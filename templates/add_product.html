@@ -19,7 +19,11 @@
             <input type="text" id="productName" name="product_name" required>
 
             <label for="manufacturer">Manufacturer</label>
-            <input type="text" id="manufacturer" name="manufacturer" required>
+            <select id="manufacturer" name="manufacturer_id" required>
+                {% for manufacturer in manufacturers %}
+                    <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
+                {% endfor %}
+            </select>                    
 
             <label for="price">Price (€)</label>
             <input type="number" id="price" name="price" step="0.01" required>

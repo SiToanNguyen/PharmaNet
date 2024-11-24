@@ -27,7 +27,7 @@
         <tr>
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
-            <td>{{ product.manufacturer }}</td>
+            <td>{{ product.manufacturer['name'] }}</td>
             <td>{{ "%.2f" | format(product.price) }}</td>
             <td>
                 <!-- Button to open the "Edit Product" page -->

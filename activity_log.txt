@@ -31,3 +31,64 @@
 24.11.2024 12:43:35 admin logged in.
 24.11.2024 12:43:43 admin logged out.
 24.11.2024 12:43:50 toanns logged in.
+24.11.2024 13:23:37 toanns added Umbrella (ID: 1)
+24.11.2024 13:24:08 toanns edited Umbrella (ID: 1)
+24.11.2024 13:29:55 toanns added the manufacturer Witch (ID: 2)
+24.11.2024 13:30:15 toanns edited the manufacturer Witch and Wizard (ID: 2)
+24.11.2024 14:32:56 toanns added the manufacturer Medica Pharma (ID: 1)
+24.11.2024 14:33:21 toanns added the manufacturer Pharmex Laboratories (ID: 2)
+24.11.2024 14:33:29 toanns added the manufacturer Vitalis Pharmaceuticals (ID: 3)
+24.11.2024 14:33:37 toanns added the manufacturer CareMed Solutions (ID: 4)
+24.11.2024 14:33:44 toanns added the manufacturer BioHealth Pharma (ID: 5)
+24.11.2024 14:33:49 toanns logged out.
+24.11.2024 14:33:58 admin logged in.
+24.11.2024 15:09:47 admin logged out.
+24.11.2024 15:10:07 admin logged in.
+24.11.2024 16:07:52 admin added the user koehn (ID: 11)
+24.11.2024 16:08:11 admin added the user toan (ID: 12)
+24.11.2024 16:26:54 admin edited the user toan (ID: 12)
+24.11.2024 16:51:19 admin edited the user toan (ID: 12)
+24.11.2024 16:51:23 admin logged out.
+24.11.2024 16:51:28 toan logged in.
+24.11.2024 16:51:34 toan logged out.
+24.11.2024 16:51:40 admin logged in.
+24.11.2024 16:51:44 admin removed the user toan (ID: 12)
+24.11.2024 16:51:47 admin logged out.
+24.11.2024 16:51:52 toan logged in.
+24.11.2024 16:52:02 toan logged out.
+24.11.2024 16:52:08 admin logged in.
+24.11.2024 16:56:48 admin logged out.
+24.11.2024 16:57:09 admin logged in.
+24.11.2024 16:57:16 admin reactivated the user toan (ID: 12)
+24.11.2024 16:57:29 admin logged out.
+24.11.2024 16:57:33 toan logged in.
+24.11.2024 16:58:22 toan added the manufacturer Umbrella (ID: 1)
+24.11.2024 16:58:32 toan removed the manufacturer Umbrella (ID: 1)
+24.11.2024 16:58:45 toan reactivated the manufacturer Umbrella (ID: 1)
+24.11.2024 16:58:53 toan logged out.
+24.11.2024 16:59:05 admin logged in.
+24.11.2024 17:53:44 admin removed the manufacturer Umbrella (ID: 1)
+24.11.2024 17:54:12 admin added the manufacturer Medica Pharma (ID: 2)
+24.11.2024 17:54:20 admin added the manufacturer Pharmex Laboratories (ID: 3)
+24.11.2024 17:54:27 admin added the manufacturer Vitalis Pharmaceuticals (ID: 4)
+24.11.2024 17:54:35 admin added the manufacturer CareMed Solutions (ID: 5)
+24.11.2024 17:54:52 admin added the manufacturer BioHealth Pharma (ID: 6)
+24.11.2024 18:36:56 admin added the product Medica Pain Relief Gel (ID: 1)
+24.11.2024 18:37:24 admin added the product Medica Cough Syrup (ID: 2)
+24.11.2024 18:55:21 admin logged out.
+24.11.2024 18:56:06 toan logged in.
+24.11.2024 19:09:41 toan added the product ABC (ID: 3)
+24.11.2024 19:34:02 toan edited the product Pharmex Antibacterial Cream (ID: 3)
+24.11.2024 19:34:25 toan added the product Pharmex Vitamin C Tablets (ID: 4)
+24.11.2024 19:38:22 toan added the product Vitalis Heart Support Capsules (ID: 5)
+24.11.2024 19:38:39 toan added the product Vitalis Immunity Boost Syrup (ID: 6)
+24.11.2024 19:38:59 toan added the product CareMed Cold & Flu Relief (ID: 7)
+24.11.2024 19:39:17 toan added the product CareMed Sleep Aid Tablets (ID: 8)
+24.11.2024 19:39:35 toan added the product BioHealth Multivitamin Tablets (ID: 9)
+24.11.2024 19:39:48 toan added the product BioHealth Skin Repair Cream (ID: 10)
+24.11.2024 19:40:57 toan added the manufacturer Hogwart (ID: 7)
+24.11.2024 19:41:13 toan added the product Wizard (ID: 11)
+24.11.2024 19:41:30 toan edited the manufacturer Hogwartzzz (ID: 7)
+24.11.2024 19:41:55 toan edited the product Wizard and Witch (ID: 11)
+24.11.2024 19:42:11 toan removed the product Wizard and Witch (ID: 11)
+24.11.2024 19:42:27 toan removed the manufacturer Hogwartzzz (ID: 7)

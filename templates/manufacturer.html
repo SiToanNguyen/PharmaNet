@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manufacturer List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Manufacturer List{% endblock %}
+    {% block content %}
+
+    <!-- Button to open the "Add New Manufacturer" page -->
+    <a href="{{ url_for('manufacturer.add_manufacturer_page') }}">
+        <button id="openAddManufacturerPageBtn">Add a new manufacturer</button>
+    </a>
+
+    <h2>Manufacturer List</h2>
+    <table border="1">
+        <tr>
+            <th>Manufacturer ID</th>
+            <th>Manufacturer Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        {% for manufacturer in manufacturers %}
+        <tr>
+            <td>{{ manufacturer.id }}</td>
+            <td>{{ manufacturer.name }}</td>
+            <td>{{ manufacturer.description }}</td>
+            <td>
+                <!-- Button to open the "Edit Manufacturer" page -->
+                <a href="{{ url_for('manufacturer.edit_manufacturer', manufacturer_id=manufacturer.id) }}">
+                    <button>Edit</button>
+                </a>
+                <!-- Button to remove a manufacturer -->
+                <button onclick="removeManufacturer('{{ manufacturer.id }}', '{{ manufacturer.name }}')">Remove</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{{ url_for('index') }}">Return to the main page</a>
+
+    <!-- JavaScript to handle manufacturer removal -->
+    <script>
+        function removeManufacturer(manufacturerId, manufacturerName) {
+            const userConfirmed = confirm(`Are you sure to remove ${manufacturerName} (${manufacturerId})?`);
+            if (userConfirmed) {
+                fetch(`/manufacturer/remove/${manufacturerId}`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("Manufacturer removed successfully!");
+                        window.location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert("Error removing manufacturer.");
+                    }
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            }
+        }
+    </script>
+
+    {% endblock %}
+</body>
+</html>

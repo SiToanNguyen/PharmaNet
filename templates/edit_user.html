@@ -17,7 +17,7 @@
             <input type="hidden" id="userId" name="user_id" value="{{ user.id }}">
 
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" value="{{ user.username }}" {% if user.username == 'admin' %}disabled{% endif %} required>
+            <input type="text" id="username" name="username" value="{{ user.username }}" {% if user.username == 'admin' %}readonly{% endif %} required>
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" value="{{ user.password }}" required>

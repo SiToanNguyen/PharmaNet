@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Manufacturer</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>    
+    {% extends "index.html" %}
+    {% block title %}Manufacturer List{% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Add New Manufacturer</h2>
+
+        <!-- Update the action to post to the current page -->
+        <form class="form" action="{{ url_for('manufacturer.add_manufacturer_page') }}" method="POST">
+            <label for="manufacturerName">Manufacturer Name</label>
+            <input type="text" id="manufacturerName" name="manufacturer_name" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Add Manufacturer</button>
+                <a href="{{ url_for('manufacturer.manufacturer_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+        
+        <!-- Display the error message if one exists -->
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
+
+    {% endblock %}
+</body>
+</html>
