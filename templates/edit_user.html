@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}User List{% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Edit User</h2>
+
+        <form class="form" action="{{ url_for('user.edit_user', user_id=user.id) }}" method="POST">
+            <input type="hidden" id="userId" name="user_id" value="{{ user.id }}">
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{ user.username }}" {% if user.username == 'admin' %}disabled{% endif %} required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" value="{{ user.password }}" required>
+
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Update User</button>
+                <a href="{{ url_for('user.user_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+    </main>
+    {% if error_message %}
+        <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+
+    {% endblock %}
+</body>
+</html>

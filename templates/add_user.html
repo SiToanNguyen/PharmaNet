@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New User</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>    
+    {% extends "index.html" %}
+    {% block title %}User List{% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Add New User</h2>
+
+        <!-- Update the action to post to the current page -->
+        <form class="form" action="{{ url_for('user.add_user_page') }}" method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Add User</button>
+                <a href="{{ url_for('user.user_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+        
+        <!-- Display the error message if one exists -->
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
+
+    {% endblock %}
+</body>
+</html>

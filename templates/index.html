@@ -14,6 +14,9 @@
     
     <nav>
         <ul class="nav-menu">
+            {% if username == 'admin' %} <!-- Only admin can see the User button -->
+            <li><a class="nav-button" href="{{ url_for('user.user_page') }}">User</a></li>
+            {% endif %}
             <li><a class="nav-button" href="{{ url_for('product.product_page') }}">Product</a></li>
             <li><a class="nav-button" href="{{ url_for('import.import_page') }}">Import</a></li>
             <li><a class="nav-button" href="{{ url_for('export.export_page') }}">Export</a></li>

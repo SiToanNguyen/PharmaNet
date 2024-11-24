@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}User List{% endblock %}
+    {% block content %}
+
+    <!-- Button to open the "Add New User" page -->
+    <a href="{{ url_for('user.add_user_page') }}">
+        <button id="openAddUserPageBtn">Add a new user</button>
+    </a>
+
+    <h2>User List</h2>
+    <table border="1">
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Actions</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+                {% if user.password|length > 2 %}
+                    {{ user.password[0] }}{{ '*' * (user.password|length - 2) }}{{ user.password[-1] }}
+                {% else %}
+                    {{ '*' * user.password|length }}
+                {% endif %}
+            </td>
+            <td>
+                <!-- Button to open the "Edit User" page -->
+                <a href="{{ url_for('user.edit_user', user_id=user.id) }}">
+                    <button>Edit</button>
+                </a>
+                <!-- Button to remove a user -->
+                <button onclick="removeUser('{{ user.id }}', '{{ user.username }}')">Remove</button>
+            </td>            
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{{ url_for('index') }}">Return to the main page</a>
+
+    <!-- JavaScript to handle user removal -->
+    <script>
+        function removeUser(userId, username) {
+            const userConfirmed = confirm(`Are you sure to remove ${username} (${userId})?`);
+            if (userConfirmed) {
+                fetch(`/user/remove/${userId}`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        alert("User removed successfully!");
+                        window.location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert("Error removing user.");
+                    }
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            }
+        }
+    </script>
+
+    {% endblock %}
+</body>
+</html>
