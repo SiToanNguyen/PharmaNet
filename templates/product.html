@@ -47,7 +47,7 @@
     <!-- JavaScript to handle product removal -->
     <script>
         function removeProduct(productId, productName) {
-            const userConfirmed = confirm(`Are you sure to remove ${productName} (${productId})?`);
+            const userConfirmed = confirm(`Are you sure to remove ${productName} (ID: ${productId})?`);
             if (userConfirmed) {
                 fetch(`/product/remove/${productId}`, {
                     method: 'POST'

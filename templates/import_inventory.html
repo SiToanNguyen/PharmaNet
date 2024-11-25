@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Import </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Inventory Import {% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Inventory Import </h2>
+
+        <form class="form" action="{{ url_for('inventory.import_inventory_page') }}" method="POST">
+            <!-- Dropdown list for products -->
+            <label for="product">Product</label>
+            <select id="product" name="product_id" required onchange="updateDetails()">
+                <option value="" disabled selected>Select a product</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Manufacturer field (readonly) -->
+            <label for="manufacturer">Manufacturer</label>
+            <input type="text" id="manufacturer" name="manufacturer_name" readonly>
+
+            <!-- Price field (readonly) -->
+            <label for="price">Price (€)</label>
+            <input type="number" id="price" name="price" step="0.01" readonly>
+
+            <!-- Quantity and Expiry Date input fields -->
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <label for="expiry_date">Expiry Date</label>
+            <input type="date" id="expiry_date" name="expiry_date" required>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Submit</button>
+                <a href="{{ url_for('inventory.inventory_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+
+        <!-- JavaScript to dynamically update fields -->
+        <script>
+            const productDetails = JSON.parse('{{ product_details | tojson | safe }}');
+        
+            function updateDetails() {
+                const productId = document.getElementById('product').value;
+                const manufacturerField = document.getElementById('manufacturer');
+                const priceField = document.getElementById('price');
+        
+                if (productId && productDetails[productId]) {
+                    manufacturerField.value = productDetails[productId].manufacturer_name;
+                    priceField.value = productDetails[productId].price;
+                } else {
+                    manufacturerField.value = '';
+                    priceField.value = '';
+                }
+            }
+
+            // Set the expiry date input to today's date
+            document.addEventListener('DOMContentLoaded', function () {
+                const today = new Date().toISOString().split('T')[0]; // Get today's date in yyyy-mm-dd format
+                document.getElementById('expiry_date').value = today; // Set it as the default value for the expiry date
+            });
+        </script>
+        
+
+    </main>
+    {% endblock %}
+</body>
+</html>

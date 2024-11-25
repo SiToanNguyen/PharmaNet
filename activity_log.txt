@@ -1,94 +1,22 @@
-18.11.2024 12:16:53 admin logged in.
-18.11.2024 12:26:36 admin logged out.
-18.11.2024 12:26:44 admin logged in.
-18.11.2024 12:26:51 admin logged out.
-18.11.2024 12:27:11 koehn logged in.
-18.11.2024 12:27:17 koehn logged out.
-18.11.2024 12:27:24 admin logged in.
-18.11.2024 12:29:12 admin added Paracetamol 500mg (ID: 1)
-18.11.2024 12:29:34 admin added Ibuprofen 400mg (ID: 2)
-18.11.2024 12:29:54 admin added Amoxicillin 250mg (ID: 3)
-18.11.2024 12:30:13 admin added Cetirizine 10mg (ID: 4)
-18.11.2024 12:30:33 admin added Vitamin C 1000mg (ID: 5)
-18.11.2024 12:31:08 admin logged out.
-24.11.2024 10:23:27 admin logged in.
-24.11.2024 10:23:50 admin edited Vitamin C 750mg (ID: 5)
-24.11.2024 10:23:58 admin logged out.
-24.11.2024 10:24:07 admin logged in.
-24.11.2024 10:29:06 admin added Bonbon (ID: 6)
-24.11.2024 10:29:18 admin removed Bonbon (ID: 6)
-24.11.2024 11:00:26 admin added toan (ID: 78)
-24.11.2024 11:00:36 admin edited toanns (ID: 78)
-24.11.2024 11:02:49 admin added thomas (ID: 79)
-24.11.2024 11:03:03 admin removed thomas (ID: 79)
-24.11.2024 11:12:35 admin added thomas (ID: 87)
-24.11.2024 11:12:48 admin removed thomas (ID: 87)
-24.11.2024 11:32:18 admin logged out.
-24.11.2024 11:32:38 admin logged in.
-24.11.2024 12:29:06 admin logged out.
-24.11.2024 12:29:13 toanns logged in.
-24.11.2024 12:43:28 toanns logged out.
-24.11.2024 12:43:35 admin logged in.
-24.11.2024 12:43:43 admin logged out.
-24.11.2024 12:43:50 toanns logged in.
-24.11.2024 13:23:37 toanns added Umbrella (ID: 1)
-24.11.2024 13:24:08 toanns edited Umbrella (ID: 1)
-24.11.2024 13:29:55 toanns added the manufacturer Witch (ID: 2)
-24.11.2024 13:30:15 toanns edited the manufacturer Witch and Wizard (ID: 2)
-24.11.2024 14:32:56 toanns added the manufacturer Medica Pharma (ID: 1)
-24.11.2024 14:33:21 toanns added the manufacturer Pharmex Laboratories (ID: 2)
-24.11.2024 14:33:29 toanns added the manufacturer Vitalis Pharmaceuticals (ID: 3)
-24.11.2024 14:33:37 toanns added the manufacturer CareMed Solutions (ID: 4)
-24.11.2024 14:33:44 toanns added the manufacturer BioHealth Pharma (ID: 5)
-24.11.2024 14:33:49 toanns logged out.
-24.11.2024 14:33:58 admin logged in.
-24.11.2024 15:09:47 admin logged out.
-24.11.2024 15:10:07 admin logged in.
-24.11.2024 16:07:52 admin added the user koehn (ID: 11)
-24.11.2024 16:08:11 admin added the user toan (ID: 12)
-24.11.2024 16:26:54 admin edited the user toan (ID: 12)
-24.11.2024 16:51:19 admin edited the user toan (ID: 12)
-24.11.2024 16:51:23 admin logged out.
-24.11.2024 16:51:28 toan logged in.
-24.11.2024 16:51:34 toan logged out.
-24.11.2024 16:51:40 admin logged in.
-24.11.2024 16:51:44 admin removed the user toan (ID: 12)
-24.11.2024 16:51:47 admin logged out.
-24.11.2024 16:51:52 toan logged in.
-24.11.2024 16:52:02 toan logged out.
-24.11.2024 16:52:08 admin logged in.
-24.11.2024 16:56:48 admin logged out.
-24.11.2024 16:57:09 admin logged in.
-24.11.2024 16:57:16 admin reactivated the user toan (ID: 12)
-24.11.2024 16:57:29 admin logged out.
-24.11.2024 16:57:33 toan logged in.
-24.11.2024 16:58:22 toan added the manufacturer Umbrella (ID: 1)
-24.11.2024 16:58:32 toan removed the manufacturer Umbrella (ID: 1)
-24.11.2024 16:58:45 toan reactivated the manufacturer Umbrella (ID: 1)
-24.11.2024 16:58:53 toan logged out.
-24.11.2024 16:59:05 admin logged in.
-24.11.2024 17:53:44 admin removed the manufacturer Umbrella (ID: 1)
-24.11.2024 17:54:12 admin added the manufacturer Medica Pharma (ID: 2)
-24.11.2024 17:54:20 admin added the manufacturer Pharmex Laboratories (ID: 3)
-24.11.2024 17:54:27 admin added the manufacturer Vitalis Pharmaceuticals (ID: 4)
-24.11.2024 17:54:35 admin added the manufacturer CareMed Solutions (ID: 5)
-24.11.2024 17:54:52 admin added the manufacturer BioHealth Pharma (ID: 6)
-24.11.2024 18:36:56 admin added the product Medica Pain Relief Gel (ID: 1)
-24.11.2024 18:37:24 admin added the product Medica Cough Syrup (ID: 2)
-24.11.2024 18:55:21 admin logged out.
-24.11.2024 18:56:06 toan logged in.
-24.11.2024 19:09:41 toan added the product ABC (ID: 3)
-24.11.2024 19:34:02 toan edited the product Pharmex Antibacterial Cream (ID: 3)
-24.11.2024 19:34:25 toan added the product Pharmex Vitamin C Tablets (ID: 4)
-24.11.2024 19:38:22 toan added the product Vitalis Heart Support Capsules (ID: 5)
-24.11.2024 19:38:39 toan added the product Vitalis Immunity Boost Syrup (ID: 6)
-24.11.2024 19:38:59 toan added the product CareMed Cold & Flu Relief (ID: 7)
-24.11.2024 19:39:17 toan added the product CareMed Sleep Aid Tablets (ID: 8)
-24.11.2024 19:39:35 toan added the product BioHealth Multivitamin Tablets (ID: 9)
-24.11.2024 19:39:48 toan added the product BioHealth Skin Repair Cream (ID: 10)
-24.11.2024 19:40:57 toan added the manufacturer Hogwart (ID: 7)
-24.11.2024 19:41:13 toan added the product Wizard (ID: 11)
-24.11.2024 19:41:30 toan edited the manufacturer Hogwartzzz (ID: 7)
-24.11.2024 19:41:55 toan edited the product Wizard and Witch (ID: 11)
-24.11.2024 19:42:11 toan removed the product Wizard and Witch (ID: 11)
-24.11.2024 19:42:27 toan removed the manufacturer Hogwartzzz (ID: 7)
+25.11.2024 21:56:26 admin added the user koehn (ID: 3)
+25.11.2024 21:56:39 admin added the user toan (ID: 4)
+25.11.2024 22:03:07 admin added the manufacturer Bayer (ID: 1)
+25.11.2024 22:04:21 admin added the manufacturer Johnson & Johnson (ID: 2)
+25.11.2024 22:04:38 admin edited the manufacturer Johnson & Johnson (ID: 2)
+25.11.2024 22:05:00 admin edited the manufacturer Johnson & Johnson (ID: 2)
+25.11.2024 22:05:19 admin edited the manufacturer Bayer (ID: 1)
+25.11.2024 22:06:00 admin added the product Aspirin 20 tablets (ID: 1)
+25.11.2024 22:06:35 admin added the product Alka-Seltzer 20 effervescent tablets (ID: 2)
+25.11.2024 22:09:56 admin added the product Contour Blood Glucose Test (ID: 3)
+25.11.2024 22:10:48 admin added the product Tylenol 20 tablets (ID: 4)
+25.11.2024 22:11:07 admin added the product Neutrogena Hydro Boost Water Gel (ID: 5)
+25.11.2024 22:11:25 admin added the product Band-Aid Adhesive Bandages (ID: 6)
+25.11.2024 22:11:34 admin edited the product Neutrogena Hydro Boost Water Gel (ID: 5)
+25.11.2024 22:11:39 admin edited the product Band-Aid Adhesive Bandages (ID: 6)
+25.11.2024 22:12:30 admin imported 20 Aspirin 20 tablets (ID: 1) with expiry date 2025-11-25
+25.11.2024 22:12:55 admin imported 10 Aspirin 20 tablets (ID: 1) with expiry date 2026-02-25
+25.11.2024 22:13:25 admin imported 15 Tylenol 20 tablets (ID: 4) with expiry date 2025-03-14
+25.11.2024 22:14:09 admin imported additional 12 Aspirin 20 tablets (ID: 1) with expiry date 2026-02-25 (New total: 22)
+25.11.2024 22:14:54 admin exported 10 Aspirin 20 tablets (ID: 1) with expiry date 2025-11-25
+25.11.2024 22:15:02 admin exported 10 Aspirin 20 tablets (ID: 1) with expiry date 2025-11-25
+25.11.2024 22:15:20 admin logged out.

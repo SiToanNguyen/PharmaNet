@@ -60,12 +60,17 @@ def init_db():
         )
     ''')
 
-    # Create the warehouse inventory table
+    # Create the inventory table
     c.execute('''
-        CREATE TABLE IF NOT EXISTS warehouse (
-            id INTEGER PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS inventory (
+            inventory_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Unique ID for each inventory entry
+            product_id INTEGER NOT NULL, -- Refers to the product
+            manufacturer_id INTEGER NOT NULL, -- Refers to the manufacturer
+            price REAL NOT NULL,
             quantity INTEGER NOT NULL DEFAULT 0,
-            FOREIGN KEY (id) REFERENCES products (id)
+            expiry_date DATE NOT NULL,
+            FOREIGN KEY (product_id) REFERENCES products (id),
+            FOREIGN KEY (manufacturer_id) REFERENCES manufacturers (id)
         )
     ''')
 

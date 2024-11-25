@@ -51,7 +51,7 @@
     <!-- JavaScript to handle user removal -->
     <script>
         function removeUser(userId, username) {
-            const userConfirmed = confirm(`Are you sure to remove ${username} (${userId})?`);
+            const userConfirmed = confirm(`Are you sure to remove ${username} (ID: ${userId})?`);
             if (userConfirmed) {
                 fetch(`/user/remove/${userId}`, {
                     method: 'POST'

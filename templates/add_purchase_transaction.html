@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Purchase Transaction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Price History{% endblock %}
+    {% block content %}
+    <h1>Add Purchase Transaction</h1>
+    <form method="POST" action="/purchase_transaction/add">
+        <!-- Manufacturer -->
+        <label for="manufacturer">Manufacturer:</label>
+        <select id="manufacturer" name="manufacturer_id" required>
+            <option value="" disabled selected>Select Manufacturer</option>
+            {% for manufacturer in manufacturers %}
+                <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <!-- Purchased Products -->
+        <div id="products-container">
+            <h3>Purchased Products</h3>
+            <div class="product-entry">
+                <label for="product_name_0">Product Name:</label>
+                <input type="text" id="product_name_0" name="products[0][name]" required>
+                
+                <label for="unit_price_0">Unit Price:</label>
+                <input type="number" id="unit_price_0" name="products[0][unit_price]" step="0.01" required>
+                
+                <label for="quantity_0">Quantity:</label>
+                <input type="number" id="quantity_0" name="products[0][quantity]" required>
+                
+                <label for="expiry_date_0">Expiry Date:</label>
+                <input type="date" id="expiry_date_0" name="products[0][expiry_date]" required>
+            </div>
+        </div>
+        <button type="button" id="add-product">Add Another Product</button>
+        <br><br>
+
+        <!-- Total Price -->
+        <label for="total_price">Total Price:</label>
+        <input type="text" id="total_price" name="total_price" readonly>
+        <br><br>
+
+        <button type="submit">Submit Transaction</button>
+    </form>
+
+    <script>
+        document.getElementById('add-product').addEventListener('click', () => {
+            const container = document.getElementById('products-container');
+            const index = container.querySelectorAll('.product-entry').length;
+
+            const productEntry = document.createElement('div');
+            productEntry.classList.add('product-entry');
+
+            productEntry.innerHTML = `
+                <label for="product_name_${index}">Product Name:</label>
+                <input type="text" id="product_name_${index}" name="products[${index}][name]" required>
+                
+                <label for="unit_price_${index}">Unit Price:</label>
+                <input type="number" id="unit_price_${index}" name="products[${index}][unit_price]" step="0.01" required>
+                
+                <label for="quantity_${index}">Quantity:</label>
+                <input type="number" id="quantity_${index}" name="products[${index}][quantity]" required>
+                
+                <label for="expiry_date_${index}">Expiry Date:</label>
+                <input type="date" id="expiry_date_${index}" name="products[${index}][expiry_date]" required>
+            `;
+            container.appendChild(productEntry);
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

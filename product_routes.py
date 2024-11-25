@@ -69,6 +69,13 @@ def handle_add_product(form_data):
                     SET manufacturer_id = ?, price = ?, description = ?, removed = 0
                     WHERE id = ? 
                 ''', (manufacturer_id, price, description, product_id))
+                
+                # Log price history for reactivated product
+                c.execute(
+                    'INSERT INTO price_history (product_id, old_price, new_price) VALUES (?, NULL, ?)',
+                    (product_id, price)
+                )
+                
                 conn.commit()
 
                 # Write log when reactivating a product
@@ -83,11 +90,20 @@ def handle_add_product(form_data):
 
     # Insert product into the database if no duplicate name is found
     try:
-        c.execute('INSERT INTO products (name, manufacturer_id, price, description) VALUES (?, ?, ?, ?)', (product_name, manufacturer_id, price, description))
-        conn.commit()
+        c.execute('INSERT INTO products (name, manufacturer_id, price, description) VALUES (?, ?, ?, ?)',
+                  (product_name, manufacturer_id, price, description))
+        
         product_id = c.lastrowid  # Get the newly added product's ID
+        
+        # Log initial price in price history
+        c.execute(
+            'INSERT INTO price_history (product_id, old_price, new_price) VALUES (?, NULL, ?)',
+            (product_id, price)
+        )
+        
+        conn.commit()
 
-        # Write log when adding a new product
+        # Log adding a new product
         log_activity(f"added the product {product_name} (ID: {product_id})")
         return None  # Return None if there is no error
     except Exception as e:
@@ -115,6 +131,11 @@ def edit_product(product_id):
         # Check if the new product name already exists
         with get_db_connection() as conn:
             c = conn.cursor()
+
+            # Get the current price for comparison
+            c.execute('SELECT price FROM products WHERE id = ?', (product_id,))
+            current_price = c.fetchone()[0]
+
             c.execute('SELECT id FROM products WHERE name = ? AND id != ?', (product_name, product_id))
             existing_product = c.fetchone()
 
@@ -125,10 +146,18 @@ def edit_product(product_id):
             
             # If no duplicate name, proceed to update the product
             c.execute('UPDATE products SET name = ?, manufacturer_id = ?, price = ?, description = ? WHERE id = ?',
-                      (product_name, manufacturer_id, price, description, product_id))
+                      (product_name, manufacturer_id, price, description, product_id))            
+                        
+            # Log price change if it differs
+            if price != current_price:
+                c.execute(
+                    'INSERT INTO price_history (product_id, old_price, new_price) VALUES (?, ?, ?)',
+                    (product_id, current_price, price)
+                )
+
             conn.commit()
 
-        # Write log when editing a product
+        # Log editing a product
         log_activity(f"edited the product {product_name} (ID: {product_id})")
         
         return redirect(url_for('product.product_page'))
@@ -146,7 +175,7 @@ def remove_product(product_id):
         c.execute('UPDATE products SET removed = 1 WHERE id = ?', (product_id,))
         conn.commit()
 
-    # Log the removal
+    # Log removing a product
     if product_name:
         log_activity(f"removed the product {product_name[0]} (ID: {product_id})")
     return jsonify({"status": "success"}), 200

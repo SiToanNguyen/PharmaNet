@@ -1,11 +1,10 @@
 from flask import Flask, request, redirect, url_for, render_template, session, send_from_directory
-from utils import init_db
+from utils import init_db, get_db_connection
 
 from user_routes import user_bp
 from manufacturer_routes import manufacturer_bp
 from product_routes import product_bp
-from import_routes import import_bp
-from export_routes import export_bp
+from inventory_routes import inventory_bp
 from activity_log_routes import activity_log_bp
 from login_routes import login_bp
 
@@ -19,8 +18,7 @@ app.secret_key = 'your_generated_secret_key'
 app.register_blueprint(user_bp)
 app.register_blueprint(manufacturer_bp)
 app.register_blueprint(product_bp)
-app.register_blueprint(import_bp)
-app.register_blueprint(export_bp)
+app.register_blueprint(inventory_bp)
 app.register_blueprint(activity_log_bp)
 app.register_blueprint(login_bp)
 
@@ -47,6 +45,15 @@ def index():
 @app.route('/images/<path:filename>')
 def serve_images(filename):
     return send_from_directory('images', filename)
+
+# Only for testing the price_history feature
+@app.route('/price_history')
+def view_price_history():
+    with get_db_connection() as conn:
+        c = conn.cursor()
+        c.execute('SELECT * FROM price_history ORDER BY change_date DESC')
+        price_history = c.fetchall()
+    return render_template('price_history.html', price_history=price_history)
 
 if __name__ == '__main__':
     init_db()

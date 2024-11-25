@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Export </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Inventory Export {% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Inventory Export </h2>
+
+        <form class="form" action="{{ url_for('inventory.export_inventory_page') }}" method="POST">
+            <!-- Dropdown list for unique products -->
+            <label for="product">Product</label>
+            <select id="product" name="product_id" required onchange="updateDetails()">
+                <option value="" disabled selected>Select a product</option>
+                {% for product in products %}
+                    <option value="{{ product[0] }}">{{ product[1] }}</option> <!-- Use product[0] for ID -->
+                {% endfor %}
+            </select>
+
+            <!-- Manufacturer field (readonly) -->
+            <label for="manufacturer">Manufacturer</label>
+            <input type="text" id="manufacturer" name="manufacturer_name" readonly>
+
+            <!-- Price field (readonly) -->
+            <label for="price">Price (€)</label>
+            <input type="number" id="price" name="price" step="0.01" readonly>
+
+            <!-- Dropdown list for expiry dates -->
+            <label for="expiry_date">Expiry Date</label>
+            <select id="expiry_date" name="expiry_date" required onchange="updateQuantity()">
+                <option value="" disabled selected>Select an expiry date</option>
+            </select>
+
+            <!-- Quantity input field -->
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Submit</button>
+                <a href="{{ url_for('inventory.inventory_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+
+        <!-- JavaScript to dynamically update fields -->
+        <script>
+            const inventoryDetails = JSON.parse('{{ inventory_details | tojson | safe }}');
+        
+            function updateDetails() {
+                const productId = document.getElementById('product').value;
+                const manufacturerField = document.getElementById('manufacturer');
+                const priceField = document.getElementById('price');
+                const expiryDateDropdown = document.getElementById('expiry_date');
+        
+                // Reset fields
+                manufacturerField.value = '';
+                priceField.value = '';
+                expiryDateDropdown.innerHTML = '<option value="" disabled selected>Select an expiry date</option>';
+
+                if (productId && inventoryDetails[productId]) {
+                    // Update manufacturer and price
+                    manufacturerField.value = inventoryDetails[productId].manufacturer_name;
+                    priceField.value = inventoryDetails[productId].price;
+
+                    // Populate expiry dates
+                    const expiryDates = inventoryDetails[productId].expiry_dates;
+                    expiryDates.sort(); // Sort dates to ensure the nearest is first
+                    expiryDates.forEach(date => {
+                        const option = document.createElement('option');
+                        option.value = date;
+                        option.textContent = date;
+                        expiryDateDropdown.appendChild(option);
+                    });
+
+                    // Automatically select the nearest expiry date
+                    if (expiryDates.length > 0) {
+                        expiryDateDropdown.value = expiryDates[0];
+                        updateQuantity(); // Update quantity for the selected date
+                    }
+                }
+            }
+
+            function updateQuantity() {
+                const productId = document.getElementById('product').value;
+                const expiryDate = document.getElementById('expiry_date').value;
+                const quantityField = document.getElementById('quantity');
+
+                // Reset quantity
+                quantityField.value = '';
+                quantityField.max = '';
+
+                if (productId && expiryDate && inventoryDetails[productId]) {
+                    const quantities = inventoryDetails[productId].quantities;
+                    if (quantities[expiryDate]) {
+                        quantityField.max = quantities[expiryDate];
+                        quantityField.placeholder = `Max: ${quantities[expiryDate]}`;
+                    }
+                }
+            }
+        </script>
+        
+    </main>
+    {% endblock %}
+</body>
+</html>

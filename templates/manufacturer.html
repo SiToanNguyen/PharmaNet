@@ -45,7 +45,7 @@
     <!-- JavaScript to handle manufacturer removal -->
     <script>
         function removeManufacturer(manufacturerId, manufacturerName) {
-            const userConfirmed = confirm(`Are you sure to remove ${manufacturerName} (${manufacturerId})?`);
+            const userConfirmed = confirm(`Are you sure to remove ${manufacturerName} (ID: ${manufacturerId})?`);
             if (userConfirmed) {
                 fetch(`/manufacturer/remove/${manufacturerId}`, {
                     method: 'POST'

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price History</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Price History{% endblock %}
+    {% block content %}
+    <h2>Price History</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Product ID</th>
+            <th>Old Price</th>
+            <th>New Price</th>
+            <th>Change Date</th>
+        </tr>
+        {% for entry in price_history %}
+        <tr>
+            <td>{{ entry[0] }}</td>
+            <td>{{ entry[1] }}</td>
+            <td>{{ "%.2f"|format(entry[2]) if entry[2] is not none else "N/A" }}</td>
+            <td>{{ "%.2f"|format(entry[3]) }}</td>
+            <td>{{ entry[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock %}
+</body>
+</html>

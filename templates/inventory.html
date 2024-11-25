@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Inventory List{% endblock %}
+    {% block content %}
+
+    <!-- Buttons to import and export inventory -->
+    <a href="{{ url_for('inventory.import_inventory_page') }}">
+        <button id="importInventoryBtn">Import Products</button>
+    </a>
+    <a href="{{ url_for('inventory.export_inventory_page') }}">
+        <button id="exportInventoryBtn">Export Products</button>
+    </a>
+
+    <h2>Inventory List</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Manufacturer</th>
+            <th>Price (€)</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+        </tr>
+        {% for entry in inventory %}
+        <tr>
+            <td>{{ entry.inventory_id }}</td>
+            <td>{{ entry.product_name }}</td>
+            <td>{{ entry.manufacturer_name }}</td>
+            <td>{{ "%.2f" | format(entry.price) }}</td>
+            <td>{{ entry.quantity }}</td>
+            <td>{{ entry.expiry_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>    
+
+    <br>
+    <a href="{{ url_for('index') }}">Return to the main page</a>
+
+    {% endblock %}
+</body>
+</html>
