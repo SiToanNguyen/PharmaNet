@@ -5,6 +5,7 @@ from user_routes import user_bp
 from manufacturer_routes import manufacturer_bp
 from product_routes import product_bp
 from inventory_routes import inventory_bp
+from purchase_transaction_routes import purchase_transaction_bp
 from activity_log_routes import activity_log_bp
 from login_routes import login_bp
 
@@ -19,6 +20,7 @@ app.register_blueprint(user_bp)
 app.register_blueprint(manufacturer_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(inventory_bp)
+app.register_blueprint(purchase_transaction_bp)
 app.register_blueprint(activity_log_bp)
 app.register_blueprint(login_bp)
 

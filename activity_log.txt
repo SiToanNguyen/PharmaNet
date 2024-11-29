@@ -1,22 +1,21 @@
-25.11.2024 21:56:26 admin added the user koehn (ID: 3)
-25.11.2024 21:56:39 admin added the user toan (ID: 4)
-25.11.2024 22:03:07 admin added the manufacturer Bayer (ID: 1)
-25.11.2024 22:04:21 admin added the manufacturer Johnson & Johnson (ID: 2)
-25.11.2024 22:04:38 admin edited the manufacturer Johnson & Johnson (ID: 2)
-25.11.2024 22:05:00 admin edited the manufacturer Johnson & Johnson (ID: 2)
-25.11.2024 22:05:19 admin edited the manufacturer Bayer (ID: 1)
-25.11.2024 22:06:00 admin added the product Aspirin 20 tablets (ID: 1)
-25.11.2024 22:06:35 admin added the product Alka-Seltzer 20 effervescent tablets (ID: 2)
-25.11.2024 22:09:56 admin added the product Contour Blood Glucose Test (ID: 3)
-25.11.2024 22:10:48 admin added the product Tylenol 20 tablets (ID: 4)
-25.11.2024 22:11:07 admin added the product Neutrogena Hydro Boost Water Gel (ID: 5)
-25.11.2024 22:11:25 admin added the product Band-Aid Adhesive Bandages (ID: 6)
-25.11.2024 22:11:34 admin edited the product Neutrogena Hydro Boost Water Gel (ID: 5)
-25.11.2024 22:11:39 admin edited the product Band-Aid Adhesive Bandages (ID: 6)
-25.11.2024 22:12:30 admin imported 20 Aspirin 20 tablets (ID: 1) with expiry date 2025-11-25
-25.11.2024 22:12:55 admin imported 10 Aspirin 20 tablets (ID: 1) with expiry date 2026-02-25
-25.11.2024 22:13:25 admin imported 15 Tylenol 20 tablets (ID: 4) with expiry date 2025-03-14
-25.11.2024 22:14:09 admin imported additional 12 Aspirin 20 tablets (ID: 1) with expiry date 2026-02-25 (New total: 22)
-25.11.2024 22:14:54 admin exported 10 Aspirin 20 tablets (ID: 1) with expiry date 2025-11-25
-25.11.2024 22:15:02 admin exported 10 Aspirin 20 tablets (ID: 1) with expiry date 2025-11-25
-25.11.2024 22:15:20 admin logged out.
+29.11.2024 19:35:26 admin logged out.
+29.11.2024 19:35:36 admin logged in.
+29.11.2024 19:36:05 admin added the user koehn (ID: 3)
+29.11.2024 19:36:15 admin added the user toan (ID: 4)
+29.11.2024 19:37:32 admin added the manufacturer Bayer (ID: 1)
+29.11.2024 19:37:41 admin added the manufacturer Johnson & Johnson (ID: 2)
+29.11.2024 19:38:00 admin added the product Aspirin (ID: 1)
+29.11.2024 19:38:14 admin added the product Alka-Seltzer (ID: 2)
+29.11.2024 19:38:36 admin added the product Contour Blood Glucose Test (ID: 3)
+29.11.2024 19:39:05 admin added the product Tylenol (ID: 4)
+29.11.2024 19:39:23 admin added the product Neutrogena Hydro Boost Water Gel (ID: 5)
+29.11.2024 19:39:37 admin added the product Band-Aid Adhesive Bandages (ID: 6)
+29.11.2024 19:41:16 admin added the purchase transaction ID: 1, invoice number: BAY-001
+29.11.2024 19:41:16 admin imported 20 Aspirin (ID: 1) with expiry date 2025-02-20
+29.11.2024 19:41:16 admin imported 15 Alka-Seltzer (ID: 2) with expiry date 2025-03-02
+29.11.2024 19:41:16 admin imported 10 Contour Blood Glucose Test (ID: 3) with expiry date 2025-04-27
+29.11.2024 19:42:46 admin added the purchase transaction ID: 2, invoice number: JOH-001
+29.11.2024 19:42:46 admin imported 15 Tylenol (ID: 4) with expiry date 2025-02-01
+29.11.2024 19:42:46 admin imported 10 Neutrogena Hydro Boost Water Gel (ID: 5) with expiry date 2025-03-09
+29.11.2024 19:42:46 admin imported 20 Band-Aid Adhesive Bandages (ID: 6) with expiry date 2025-03-13
+29.11.2024 19:43:13 admin logged out.

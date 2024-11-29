@@ -264,3 +264,13 @@ button:hover {
         font-size: 14px; /* Slightly smaller text on small screens */
     }
 }
+
+/* Ensures modal content if the Transaction list takes up full width, and the Close button is aligned to the right */
+.modal-content {
+    display: flex;
+    flex-direction: column; /* Arrange content vertically */
+}
+
+.close-btn {
+    align-self: flex-end; /* Align the Close button to the right */
+}

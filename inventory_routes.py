@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
-from utils import get_db_connection, log_activity
+from utils import get_db_connection, log_activity, handle_import_inventory
 
 inventory_bp = Blueprint('inventory', __name__)
 
@@ -50,47 +50,14 @@ def import_inventory_page():
     if not product_id or not quantity or not expiry_date:
         return jsonify({'error': 'All fields are required.'}), 400
 
-    with get_db_connection() as conn:
-        c = conn.cursor()
-
-        # Get the product name for logging
-        c.execute('SELECT name FROM products WHERE id = ?', (product_id,))
-        product_name = c.fetchone()[0]
-
-        # Check if the same product with the same expiry date exists
-        c.execute('''
-            SELECT inventory_id, quantity
-            FROM inventory
-            WHERE product_id = ? AND expiry_date = ?
-        ''', (product_id, expiry_date))
-        existing_inventory = c.fetchone()
-
-        if existing_inventory:
-            # Update the quantity for the existing entry
-            inventory_id, current_quantity = existing_inventory
-            new_quantity = current_quantity + quantity
-            c.execute('''
-                UPDATE inventory
-                SET quantity = ?
-                WHERE inventory_id = ?
-            ''', (new_quantity, inventory_id))
-            log_activity(f"imported additional {quantity} {product_name} (ID: {product_id}) with expiry date {expiry_date} (New total: {new_quantity})")
-        else:
-            # Insert a new entry if no matching product and expiry date exist
-            c.execute('''
-                INSERT INTO inventory (product_id, manufacturer_id, price, quantity, expiry_date)
-                VALUES (
-                    ?, 
-                    (SELECT manufacturer_id FROM products WHERE id = ?), 
-                    (SELECT price FROM products WHERE id = ?), 
-                    ?, ?
-                )
-            ''', (product_id, product_id, product_id, quantity, expiry_date))
-            log_activity(f"imported {quantity} {product_name} (ID: {product_id}) with expiry date {expiry_date}")
-
-        conn.commit()
+    try: # Move the logic of adding products to inventory to utils to share with other features such as Add Purchase Transaction
+        handle_import_inventory(product_id, quantity, expiry_date)
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
 
     return redirect(url_for('inventory.inventory_page'))
+
+
 
 # Route to display the "Export Inventory" page and handle form submission
 @inventory_bp.route('/inventory/export', methods=['GET', 'POST'])
