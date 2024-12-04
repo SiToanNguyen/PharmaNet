@@ -21,6 +21,8 @@
             <li><a class="nav-button" href="{{ url_for('product.product_page') }}">Product</a></li>
             <li><a class="nav-button" href="{{ url_for('inventory.inventory_page') }}">Inventory</a></li>
             <li><a class="nav-button" href="{{ url_for('purchase_transaction.purchase_transaction_page') }}">Purchase Transaction</a></li>
+            <li><a class="nav-button" href="{{ url_for('sale_transaction.sale_transaction_page') }}">Sale Transaction</a></li>
+            <li><a class="nav-button" href="{{ url_for('report.report_page') }}">Report</a></li>
             <li><a class="nav-button" href="{{ url_for('activity_log.activity_log_page') }}">Activity Log</a></li>
             <li><a class="nav-button" href="{{ url_for('login.logout') }}">Log out</a></li>
         </ul>
@@ -30,12 +32,10 @@
         {% block content %}
         Incoming features:
         <ul>
-            <li>Purchase transaction</li>
             <li>Sale transaction</li>
             <li>Adjustment transaction</li>
             <li>Search transactions with details</li>
             <li>Import and export transactions using JSON</li>
-            <li>Report generation</li>
             <li>Export reports to PDF</li>
             <li>Change Activity Log from a string in text file to variables and stored in database</li>
             <li>...</li>

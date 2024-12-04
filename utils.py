@@ -18,13 +18,6 @@ def init_db():
         )
     ''')
 
-    # Create the admin user
-    c.execute('''
-        INSERT INTO users (username, password)
-        VALUES (?, ?)
-        ON CONFLICT(username) DO UPDATE SET password = excluded.password
-    ''', ("admin", "hsbochum!"))
-
     # Create the manufacturers table
     c.execute('''
         CREATE TABLE IF NOT EXISTS manufacturers (
@@ -65,12 +58,9 @@ def init_db():
         CREATE TABLE IF NOT EXISTS inventory (
             inventory_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Unique ID for each inventory entry
             product_id INTEGER NOT NULL, -- Refers to the product
-            manufacturer_id INTEGER NOT NULL, -- Refers to the manufacturer
-            price DECIMAL(10, 2) NOT NULL,
             quantity INTEGER NOT NULL DEFAULT 0,
             expiry_date DATE NOT NULL,
-            FOREIGN KEY (product_id) REFERENCES products (id),
-            FOREIGN KEY (manufacturer_id) REFERENCES manufacturers (id)
+            FOREIGN KEY (product_id) REFERENCES products (id)
         )
     ''')
 
@@ -100,9 +90,38 @@ def init_db():
         )
     ''')
 
-    # Add indexes to improve performance when querying by product_id and purchase_transaction_id
     c.execute('CREATE INDEX IF NOT EXISTS idx_purchase_transaction_items_product_id ON purchase_transaction_items(product_id)')
     c.execute('CREATE INDEX IF NOT EXISTS idx_purchase_transaction_items_purchase_transaction_id ON purchase_transaction_items(purchase_transaction_id)')
+
+    # Create the sale transactions table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS sale_transactions (
+            sale_transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer_name TEXT,                            -- Customer name (can be empty)
+            prescription_notes TEXT,                       -- Prescription notes (can be empty)
+            transaction_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- Date of transaction
+            total_price DECIMAL(10, 2) NOT NULL,           -- Total cost of the products sold
+            FOREIGN KEY (customer_name) REFERENCES customers(name) -- If customers table exists
+        )
+    ''')
+
+    # Create the sale transaction items table
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS sale_transaction_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sale_transaction_id INTEGER NOT NULL,         -- Link to the sale transaction
+            inventory_id INTEGER NOT NULL,                 -- Inventory reference (instead of product_id)
+            quantity INTEGER NOT NULL,                     -- Quantity of the product sold
+            price DECIMAL(10, 2) NOT NULL,                        -- Price per unit
+            expiry_date DATE NOT NULL,
+            FOREIGN KEY (sale_transaction_id) REFERENCES sale_transactions(sale_transaction_id),
+            FOREIGN KEY (inventory_id) REFERENCES inventory(inventory_id)
+        )
+    ''')
+
+    # c.execute('CREATE INDEX IF NOT EXISTS idx_sale_transaction_items_product_id ON sale_transaction_items(product_id)')
+    # c.execute('CREATE INDEX IF NOT EXISTS idx_sale_transaction_items_sale_transaction_id ON sale_transaction_items(sale_transaction_id)')
+
 
     conn.commit()
     conn.close()
@@ -159,9 +178,9 @@ def handle_import_inventory(product_id, quantity, expiry_date):
         else:
             # Insert a new inventory record
             c.execute('''
-                INSERT INTO inventory (product_id, manufacturer_id, price, quantity, expiry_date)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (product_id, manufacturer_id, price, quantity, expiry_date))
+                INSERT INTO inventory (product_id, quantity, expiry_date)
+                VALUES (?, ?, ?)
+            ''', (product_id, quantity, expiry_date))
             log_activity(f"imported {quantity} {product_name} (ID: {product_id}) with expiry date {expiry_date}")
 
         conn.commit()

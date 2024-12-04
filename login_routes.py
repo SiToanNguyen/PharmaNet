@@ -1,8 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 import sqlite3
 from utils import get_db_connection, log_activity
+import hashlib
 
 login_bp = Blueprint('login', __name__)
+
+def hash_password(password):
+    # Hash a password using SHA256.
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 @login_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -10,11 +15,12 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        hashed_entered_password = hash_password(password)
 
         # Check credentials in the database
         conn = get_db_connection()
         c = conn.cursor()
-        c.execute('SELECT * FROM users WHERE username = ? AND password = ? AND removed = 0', (username, password))
+        c.execute('SELECT * FROM users WHERE username = ? AND password = ? AND removed = 0', (username, hashed_entered_password))
         user = c.fetchone()
         conn.close()
 

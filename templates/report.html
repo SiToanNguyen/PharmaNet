@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction Report</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Transaction Report{% endblock %}
+    {% block content %}
+
+    <h2>Transaction Report</h2>
+
+    <!-- Date Range Selection Form -->
+    <form class="form" method="POST" action="{{ url_for('report.generate_report_page') }}">
+        <label for="from_date">From:</label>
+        <input type="date" id="from_date" name="from_date" value="{{ request.form.get('from_date', '') }}" required>
+    
+        <label for="to_date">To:</label>
+        <input type="date" id="to_date" name="to_date" value="{{ request.form.get('to_date', '') }}" required>
+    
+        <button type="submit">Generate Report</button>
+    </form>
+
+    {% if report_data %}
+    <h3>Purchase Transactions</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Transaction Date</th>
+                <th>Total Price (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in report_data.purchases %}
+            <tr>
+                <td>{{ purchase.id }}</td>
+                <td>{{ purchase.transaction_date }}</td>
+                <td>{{ "%.2f" | format(purchase.total_price) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Total Purchase Value (€):</strong> {{ "%.2f" | format(report_data.total_purchase_value) }}</p>
+
+    <h3>Sale Transactions</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Transaction Date</th>
+                <th>Total Price (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in report_data.sales %}
+            <tr>
+                <td>{{ sale.id }}</td>
+                <td>{{ sale.transaction_date }}</td>
+                <td>{{ "%.2f" | format(sale.total_price) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Total Sale Value (€):</strong> {{ "%.2f" | format(report_data.total_sale_value) }}</p>
+
+    <p><strong>Net Value (€):</strong> {{ "%.2f" | format(report_data.net_value) }}</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">Return to the main page</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('from_date').value = today;
+            document.getElementById('to_date').value = today;
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

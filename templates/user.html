@@ -19,20 +19,12 @@
         <tr>
             <th>User ID</th>
             <th>Username</th>
-            <th>Password</th>
             <th>Actions</th>
         </tr>
         {% for user in users %}
         <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
-            <td>
-                {% if user.password|length > 2 %}
-                    {{ user.password[0] }}{{ '*' * (user.password|length - 2) }}{{ user.password[-1] }}
-                {% else %}
-                    {{ '*' * user.password|length }}
-                {% endif %}
-            </td>
             <td>
                 <!-- Button to open the "Edit User" page -->
                 <a href="{{ url_for('user.edit_user', user_id=user.id) }}">

@@ -10,7 +10,7 @@ def inventory_page():
         c = conn.cursor()
         c.execute('''
             SELECT i.inventory_id, p.name AS product_name, m.name AS manufacturer_name, 
-                   i.price, i.quantity, i.expiry_date
+                   p.price AS product_price, i.quantity, i.expiry_date
             FROM inventory i
             JOIN products p ON i.product_id = p.id
             JOIN manufacturers m ON p.manufacturer_id = m.id
@@ -77,7 +77,7 @@ def export_inventory_page():
             # Prepare inventory details for dropdown updates
             c.execute('''
                 SELECT p.id, p.name, i.expiry_date, m.name AS manufacturer_name, 
-                       i.price, i.quantity
+                       p.price, i.quantity
                 FROM inventory i
                 JOIN products p ON i.product_id = p.id
                 JOIN manufacturers m ON p.manufacturer_id = m.id

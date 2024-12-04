@@ -19,3 +19,65 @@
 29.11.2024 19:42:46 admin imported 10 Neutrogena Hydro Boost Water Gel (ID: 5) with expiry date 2025-03-09
 29.11.2024 19:42:46 admin imported 20 Band-Aid Adhesive Bandages (ID: 6) with expiry date 2025-03-13
 29.11.2024 19:43:13 admin logged out.
+29.11.2024 20:08:33 toan logged in.
+29.11.2024 20:12:40 toan edited the product Aspirin (ID: 1)
+29.11.2024 20:41:41 toan edited the product Aspirin (ID: 1)
+29.11.2024 20:42:31 toan edited the product Aspirin (ID: 1)
+30.11.2024 20:33:16 admin logged in.
+30.11.2024 22:35:43 admin added the manufacturer Bayer (ID: 1)
+30.11.2024 22:35:54 admin added the product Aspirin (ID: 1)
+30.11.2024 22:36:19 admin added the purchase transaction ID: 1, invoice number: INV-001
+30.11.2024 22:36:19 admin imported 100 Aspirin (ID: 1) with expiry date 2027-12-25
+01.12.2024 10:51:26 admin logged in.
+01.12.2024 10:51:39 admin added the manufacturer Johnson & Johnson (ID: 2)
+01.12.2024 10:51:53 admin added the product Bonbon (ID: 2)
+01.12.2024 10:52:19 admin added the product Shampoo (ID: 3)
+01.12.2024 10:53:08 admin added the purchase transaction ID: 2, invoice number: INV-002
+01.12.2024 10:53:08 admin imported 50 Aspirin (ID: 1) with expiry date 2027-07-16
+01.12.2024 10:53:08 admin imported 100 Bonbon (ID: 2) with expiry date 2026-11-20
+01.12.2024 10:53:36 admin added the purchase transaction ID: 3, invoice number: INV-003
+01.12.2024 10:53:36 admin imported 100 Shampoo (ID: 3) with expiry date 2028-08-19
+01.12.2024 11:31:59 admin exported 10 Aspirin (ID: 1) with expiry date 2027-12-25
+01.12.2024 12:56:11 admin imported 10 Shampoo (ID: 3) with expiry date 2025-05-16
+01.12.2024 22:25:46 admin logged in.
+02.12.2024 07:40:05 admin logged in.
+02.12.2024 13:02:50 admin Added sale transaction ID: 1, Customer: 
+02.12.2024 13:14:20 admin Added sale transaction ID: 2, Customer: 
+02.12.2024 13:14:41 admin Added sale transaction ID: 3, Customer: Toan
+02.12.2024 13:35:31 admin Added sale transaction ID: 4, Customer: 
+02.12.2024 13:40:17 admin Added sale transaction ID: 6, Customer: 
+02.12.2024 13:40:48 admin Added sale transaction ID: 7, Customer: 
+02.12.2024 13:41:22 admin Added sale transaction ID: 8, Customer: 
+02.12.2024 16:45:31 admin logged in.
+02.12.2024 16:46:14 admin Added sale transaction ID: 9, Customer: 
+02.12.2024 17:03:55 admin Added sale transaction ID: 10, Customer: 
+02.12.2024 18:06:43 admin Added sale transaction ID: 11, Customer: 
+03.12.2024 10:35:46 admin logged in.
+03.12.2024 13:12:24 admin added sale transaction ID: 12, Customer: Toan
+03.12.2024 15:08:59 admin logged in.
+04.12.2024 11:07:39 admin logged in.
+04.12.2024 12:13:57 admin logged in.
+04.12.2024 12:19:37 admin Report generated for 2024-11-26 to 2024-12-07
+04.12.2024 12:20:09 admin Report generated for 2024-11-27 to 2024-11-28
+04.12.2024 12:24:44 admin Report generated for 2024-11-26 to 2024-12-07
+04.12.2024 12:37:01 admin Report generated for 2024-11-26 to 2024-12-14
+04.12.2024 12:44:54 admin Report generated for 2024-11-25 to 2024-11-30
+04.12.2024 12:45:36 admin Report generated for 2024-11-26 to 2024-12-13
+04.12.2024 12:47:00 admin Report generated for 2024-11-27 to 2024-12-13
+04.12.2024 12:57:01 admin Report generated for 2024-11-26 to 2024-12-21
+04.12.2024 12:58:43 admin Report generated for 2024-11-26 to 2024-12-15
+04.12.2024 13:00:24 admin Report generated for 2024-11-26 to 2024-12-14
+04.12.2024 13:02:07 admin Report generated for 2024-11-27 to 2024-12-13
+04.12.2024 13:02:33 admin Report generated for 2024-11-26 to 2024-12-07
+04.12.2024 13:40:43 admin logged out.
+04.12.2024 13:42:01 admin logged in.
+04.12.2024 13:53:09 admin logged out.
+04.12.2024 13:53:16 toan logged in.
+04.12.2024 13:53:21 toan logged out.
+04.12.2024 13:56:08 admin logged in.
+04.12.2024 14:00:16 admin Report generated for 2024-11-25 to 2024-12-14
+04.12.2024 14:01:01 admin Report generated for 2024-11-26 to 2024-12-13
+04.12.2024 15:28:56 admin Report generated for 2024-11-26 to 2024-12-20
+04.12.2024 15:29:13 admin Report generated for 2024-11-25 to 2024-12-22
+04.12.2024 15:29:14 admin Report generated for 2024-12-04 to 2024-12-04
+04.12.2024 15:29:45 admin Report generated for 2024-03-01 to 2024-12-04

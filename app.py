@@ -1,18 +1,20 @@
 from flask import Flask, request, redirect, url_for, render_template, session, send_from_directory
 from utils import init_db, get_db_connection
 
+app = Flask(__name__)
+
+app.secret_key = 'your_generated_secret_key' 
+# Replace 'your_generated_secret_key' with the real key
+
 from user_routes import user_bp
 from manufacturer_routes import manufacturer_bp
 from product_routes import product_bp
 from inventory_routes import inventory_bp
 from purchase_transaction_routes import purchase_transaction_bp
+from sale_transaction_routes import sale_transaction_bp
+from report_routes import report_bp
 from activity_log_routes import activity_log_bp
 from login_routes import login_bp
-
-app = Flask(__name__)
-
-app.secret_key = 'your_generated_secret_key' 
-# Replace 'your_generated_secret_key' with the real key
 
 # Use Flask Blueprint to organize the application into modular components.
 # They allow to split the application into smaller parts, making the code easier to manage, maintain, and scale.
@@ -21,6 +23,8 @@ app.register_blueprint(manufacturer_bp)
 app.register_blueprint(product_bp)
 app.register_blueprint(inventory_bp)
 app.register_blueprint(purchase_transaction_bp)
+app.register_blueprint(sale_transaction_bp)
+app.register_blueprint(report_bp)
 app.register_blueprint(activity_log_bp)
 app.register_blueprint(login_bp)
 

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Sale Transaction</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    {% extends "index.html" %}
+    {% block title %}Add Sale Transaction{% endblock %}
+    {% block content %}
+    <main>
+        <h2 class="center-align">Add Sale Transaction</h2>
+
+        <form class="form" action="{{ url_for('sale_transaction.add_sale_transaction_page') }}" method="POST">
+            <!-- Customer Name -->
+            <label for="customer_name">Customer Name</label>
+            <input type="text" id="customer_name" name="customer_name">
+
+            <!-- Prescription Notes -->
+            <label for="prescription_notes">Prescription Notes</label>
+            <textarea id="prescription_notes" name="prescription_notes"></textarea>
+
+            <!-- Transaction Date -->
+            <label for="transaction_date">Transaction Date</label>
+            <input type="date" id="transaction_date" name="transaction_date" required>          
+
+            <!-- Sold products table -->
+            <h3>Sold Products</h3>
+            <table id="productsTable">
+                <thead>
+                    <tr>                        
+                        <th>manufacturer</th>
+                        <th>Product</th>
+                        <th>Price (€)</th>
+                        <th>Expiry Date</th>
+                        <th>Quantity Sold</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="productRow">
+                        <td>
+                            <select class="manufacturerDropdown" name="manufacturer[]" onchange="updateProductDropdown(this)">
+                                <option value="" disabled selected>Select a manufacturer</option>
+                                {% for manufacturer in manufacturers %}
+                                <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select class="productDropdown" name="product[]" onchange="updateProductDetails(this)" disabled>
+                                <option value="" disabled selected>Select a product</option>
+                            </select>
+                        </td>                                               
+                        <td>
+                            <input type="number" class="productPrice" name="price[]" step="0.01" readonly>
+                        </td>
+                        <td>
+                            <select class="productExpiryDate" name="expiry_date[]" required disabled>
+                                <option value="" disabled selected>Select an expiry date</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="productSoldQuantity" name="quantity[]" min="1" required>
+                        </td>
+                        <td>
+                            <button type="button" class="removeRowBtn" onclick="removeRow(this)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" id="addRowBtn" onclick="addRow()">Add Product</button>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button type="submit" id="submitBtn">Submit</button>
+                <a href="{{ url_for('sale_transaction.sale_transaction_page') }}">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                </a>
+            </div>
+        </form>
+
+        <!-- JavaScript -->
+        <script>
+            // Set default date to today
+            window.onload = function() {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('transaction_date').value = today;
+            };
+
+            const inventoryDetails = JSON.parse('{{ inventory | tojson | safe }}');
+
+            function updateProductDropdown(manufacturerSelect) {
+                const manufacturerId = manufacturerSelect.value;
+                const productDropdown = manufacturerSelect.closest('tr').querySelector('.productDropdown');
+                const expiryDropdown = manufacturerSelect.closest('tr').querySelector('.productExpiryDate');
+
+                // Reset dropdowns
+                productDropdown.innerHTML = '<option value="" disabled selected>Select a product</option>';
+                expiryDropdown.innerHTML = '<option value="" disabled selected>Select an expiry date</option>';
+                expiryDropdown.disabled = true;
+
+                if (manufacturerId) {
+                    // Populate product dropdown
+                    const products = inventoryDetails.filter(item => item.manufacturer_id == manufacturerId);
+                    products.forEach(product => {
+                        const option = document.createElement('option');
+                        option.value = product.product_id;
+                        option.textContent = product.product_name;
+                        productDropdown.appendChild(option);
+                    });
+                    productDropdown.disabled = false;
+                }
+            }
+
+            function updateProductDetails(productSelect) {
+                const productId = productSelect.value;
+                const row = productSelect.closest('tr');
+                const expiryDropdown = row.querySelector('.productExpiryDate');
+                const priceInput = row.querySelector('.productPrice');
+
+                // Reset expiry dropdown
+                expiryDropdown.innerHTML = '<option value="" disabled selected>Select an expiry date</option>';
+                priceInput.value = '';
+
+                if (productId) {
+                    // Populate expiry dates
+                    const product = inventoryDetails.find(item => item.product_id == productId);
+
+                    // Update price
+                    priceInput.value = product.price;
+
+                    product.expiry_dates.forEach(expiry => {
+                        const option = document.createElement('option');
+                        option.value = expiry.expiry_date;
+                        option.textContent = `${expiry.expiry_date} (Available: ${expiry.quantity})`;
+                        expiryDropdown.appendChild(option);
+                    });
+                    expiryDropdown.disabled = false;
+                }
+            }
+
+            function addRow() {
+                const tableBody = document.getElementById('productsTable').querySelector('tbody');
+                const newRow = document.querySelector('.productRow').cloneNode(true);
+
+                newRow.querySelectorAll('select, input').forEach(input => {
+                    input.value = '';
+                });
+                tableBody.appendChild(newRow);
+            }
+
+            function removeRow(button) {
+                const row = button.closest('tr');
+                const tableBody = row.parentNode;
+
+                if (tableBody.querySelectorAll('.productRow').length > 1) {
+                    tableBody.removeChild(row);
+                }
+            }
+        </script>
+    </main>
+    {% endblock %}
+</body>
+</html>
