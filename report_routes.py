@@ -63,7 +63,7 @@ def generate_report_page():
         connection.close()
 
         # Log the activity (if necessary)
-        log_activity(f"Report generated for {from_date} to {to_date}")
+        log_activity(f"generated report for {from_date} to {to_date}")
 
         # Prepare the report data
         report_data = {

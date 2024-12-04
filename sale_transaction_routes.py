@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from utils import get_db_connection, log_activity
 from datetime import datetime
 
@@ -127,3 +127,40 @@ def fetch_all_transactions():
 def fetch_manufacturers():
     with get_db_connection() as conn:
         return conn.execute('SELECT id, name FROM manufacturers WHERE removed = 0').fetchall()
+
+@sale_transaction_bp.route('/sale_transaction/products/<int:transaction_id>', methods=['GET'])
+def get_sale_transaction_products(transaction_id):
+    try:
+        # Fetch the products associated with the sale transaction ID
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            query = '''
+                SELECT 
+                    p.name AS product_name, 
+                    si.price, 
+                    si.quantity, 
+                    si.expiry_date
+                FROM sale_transaction_items si
+                JOIN inventory i ON si.inventory_id = i.inventory_id
+                JOIN products p ON i.product_id = p.id
+                WHERE si.sale_transaction_id = ?
+            '''
+            rows = cursor.execute(query, (transaction_id,)).fetchall()
+
+        # Return the products as JSON
+        products = [
+            {
+                'product_name': row['product_name'],
+                'price': row['price'],
+                'quantity': row['quantity'],
+                'expiry_date': row['expiry_date']
+            }
+            for row in rows
+        ]
+
+        return jsonify(products)
+
+    except Exception as e:
+        print(f"Error fetching products for transaction {transaction_id}: {e}")
+        return jsonify({'error': 'An error occurred while fetching the products.'}), 500
+
