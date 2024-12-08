@@ -5,7 +5,7 @@ user_bp = Blueprint('user', __name__)
 
 # Helper function to check if the user is "admin"
 def is_admin():
-    return session.get('username') == 'admin'
+    return session.get('username') == 'admin' # Will change to checking roll instead in future update
 
 # Route to display the "User List" page and handle form submission
 @user_bp.route('/user', methods=['GET', 'POST'])

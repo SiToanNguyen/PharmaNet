@@ -25,7 +25,10 @@
                     <option value="{{ manufacturer.id }}" {% if manufacturer.id == product['manufacturer_id'] %}selected{% endif %}>{{ manufacturer.name }}</option>
                 {% endfor %}
             </select>
-                   
+            
+            <label for="purchasePrice">Purchase Price (€)</label>
+            <input type="number" id="purchasePrice" name="purchase_price" value="{{ product.purchase_price }}" step="0.01" required>
+
             <label for="price">Price (€)</label>
             <input type="number" id="price" name="price" value="{{ product.price }}" step="0.01" required>
 

@@ -9,14 +9,21 @@
     {% block title %}Activity Log{% endblock %}
     {% block content %}
 
-    <h1>Activity Log</h1>
+    <h2>Activity Log</h2>
+
+    <!-- Search Form -->
+    <form method="GET" action="{{ url_for('activity_log.activity_log_page') }}" class="search-form">
+        <input type="text" name="search" value="{{ request.args.get('search', '') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
     <ul class="activity-log">
         {% for entry in log_entries[::-1] %}  <!-- Reverse the list -->
         <li>{{ entry }}</li>
         {% endfor %}
     </ul>
-    <br>
-    <a href="{{ url_for('index') }}">Return to the main page</a>
 
     {% endblock %}
 </body>

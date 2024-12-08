@@ -18,12 +18,33 @@
     </a>
 
     <h2>Inventory List</h2>
+
+    <!-- Search Form -->
+    <form class="search-form" action="{{ url_for('inventory.inventory_page') }}" method="GET" class="search-form">
+        <label for="product_name">Product:</label>
+        <input type="text" id="product_name" name="product_name" value="{{ request.args.get('product_name', '') }}">
+
+        <label for="manufacturer_name">Manufacturer:</label>
+        <input type="text" id="manufacturer_name" name="manufacturer_name" value="{{ request.args.get('manufacturer_name', '') }}">
+
+        <label for="from_date">From:</label>
+        <input type="date" id="from_date" name="from_date" value="{{ request.args.get('from_date', '') }}">
+
+        <label for="to_date">To:</label>
+        <input type="date" id="to_date" name="to_date" value="{{ request.args.get('to_date', '') }}">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
     <table border="1">
         <tr>
             <th>ID</th>
             <th>Product</th>
             <th>Manufacturer</th>
-            <th>Price (€)</th>
+            <th>Purchase Price (€)</th>
+            <th>Sale Price (€)</th>
             <th>Quantity</th>
             <th>Expiry Date</th>
         </tr>
@@ -31,16 +52,14 @@
         <tr>
             <td>{{ entry.inventory_id }}</td>
             <td>{{ entry.product_name }}</td>
-            <td>{{ entry.manufacturer_name }}</td>
+            <td>{{ entry.manufacturer_name }}</td>            
+            <td>{{ "%.2f" | format(entry.product_purchase_price) }}</td>
             <td>{{ "%.2f" | format(entry.product_price) }}</td>
             <td>{{ entry.quantity }}</td>
             <td>{{ entry.expiry_date }}</td>
         </tr>
         {% endfor %}
-    </table>    
-
-    <br>
-    <a href="{{ url_for('index') }}">Return to the main page</a>
+    </table>
 
     {% endblock %}
 </body>

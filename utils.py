@@ -34,6 +34,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
             manufacturer_id INTEGER NOT NULL,  -- Foreign key for manufacturer
+            purchase_price DECIMAL(10, 2) NOT NULL,
             price DECIMAL(10, 2) NOT NULL,
             description TEXT,
             removed BOOLEAN NOT NULL DEFAULT 0, -- Do not remove the product in database, because it is needed to generate reports dynamically              
@@ -138,49 +139,3 @@ def log_activity(activity):
     timestamp = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
     with open('activity_log.txt', 'a') as f:
         f.write(f'{timestamp} {username} {activity}\n')
-
-# Add products to inventory, be used by Import Inventory and Add Purchase Transaction
-def handle_import_inventory(product_id, quantity, expiry_date):
-    with get_db_connection() as conn:
-        c = conn.cursor()
-
-        # Get product_name, manufacturer_id and price from product_id
-        c.execute('''
-            SELECT name, manufacturer_id, price
-            FROM products
-            WHERE id = ?
-        ''', (product_id,))
-        product_data = c.fetchone()
-
-        if not product_data:
-            raise ValueError(f"Product with ID {product_id} does not exist.")
-
-        product_name, manufacturer_id, price = product_data
-
-        # Check if the same product with the same expiry date exists in inventory
-        c.execute('''
-            SELECT inventory_id, quantity
-            FROM inventory
-            WHERE product_id = ? AND expiry_date = ?
-        ''', (product_id, expiry_date))
-        existing_inventory = c.fetchone()
-
-        if existing_inventory:
-            inventory_id, current_quantity = existing_inventory
-            new_quantity = current_quantity + quantity
-            # Update the quantity
-            c.execute('''
-                UPDATE inventory
-                SET quantity = ?
-                WHERE inventory_id = ?
-            ''', (new_quantity, inventory_id))
-            log_activity(f"imported additional {quantity} {product_name} (ID: {product_id}) with expiry date {expiry_date} (New total: {new_quantity})")
-        else:
-            # Insert a new inventory record
-            c.execute('''
-                INSERT INTO inventory (product_id, quantity, expiry_date)
-                VALUES (?, ?, ?)
-            ''', (product_id, quantity, expiry_date))
-            log_activity(f"imported {quantity} {product_name} (ID: {product_id}) with expiry date {expiry_date}")
-
-        conn.commit()

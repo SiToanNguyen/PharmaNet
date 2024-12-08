@@ -83,3 +83,48 @@
 04.12.2024 15:29:45 admin Report generated for 2024-03-01 to 2024-12-04
 04.12.2024 19:40:27 admin generated report for 2024-01-04 to 2024-12-31
 04.12.2024 19:40:39 admin logged out.
+04.12.2024 19:46:04 admin logged in.
+04.12.2024 19:46:16 admin generated report for 2024-01-01 to 2024-12-31
+04.12.2024 19:46:28 admin logged out.
+04.12.2024 19:47:37 admin logged in.
+05.12.2024 07:57:21 admin logged in.
+05.12.2024 11:37:14 admin imported 10 Paracetamol 500mg (ID: 2) with expiry date 2027-07-16
+05.12.2024 11:37:26 admin exported 2 Band-Aids (ID: 8) with expiry date 2030-08-12
+05.12.2024 15:48:24 toan logged in.
+06.12.2024 08:55:25 admin logged in.
+06.12.2024 11:02:51 admin generated report for 2024-01-01 to 2024-04-30
+06.12.2024 13:17:49 admin generated report for 2024-01-01 to 2024-07-30
+06.12.2024 21:06:41 toan logged in.
+07.12.2024 12:04:50 toan logged in.
+07.12.2024 12:43:49 toan added the purchase transaction ID: 7, invoice number: INV-789
+07.12.2024 12:43:49 toan imported 10 Cough Syrup (ID: 4) with expiry date 2027-11-12
+07.12.2024 12:43:49 toan imported 10 Vitamin C 1000mg (ID: 5) with expiry date 2050-01-03
+07.12.2024 12:55:36 toan added the sale transaction ID: 10
+07.12.2024 12:56:51 toan added the sale transaction ID: 10
+07.12.2024 12:58:22 toan added the sale transaction ID: 10
+07.12.2024 12:58:22 toan removed 1 Aspirin 500mg (ID: 10)
+07.12.2024 12:58:22 toan removed 1 Band-Aids (ID: 10)
+07.12.2024 12:59:51 toan added the sale transaction ID: 11
+07.12.2024 12:59:51 toan removed 1 Paracetamol 500mg (ID: 11)
+07.12.2024 15:09:46 toan logged in.
+07.12.2024 15:27:00 toan generated report for 2024-01-01 to 2024-12-31
+07.12.2024 19:31:51 toan added the sale transaction ID: 16
+07.12.2024 19:31:51 toan removed 1 Paracetamol 500mg (ID: 16)
+07.12.2024 21:33:15 toan edited the product Antibiotic Ointment (ID: 7)
+07.12.2024 21:41:46 toan imported 10 Paracetamol 500mg (ID: 2) with expiry date 2027-11-19
+07.12.2024 21:46:02 toan imported 10 Paracetamol 500mg (ID: 2) with expiry date 2027-08-05
+07.12.2024 22:06:41 toan Added new inventory: 1 of product ID 1
+07.12.2024 22:06:41 toan added purchase transaction ID: 10, invoice number: INV-004
+07.12.2024 22:19:34 toan added the sale transaction ID: 16
+07.12.2024 22:19:34 toan removed 2 Aspirin 500mg (ID: 16)
+08.12.2024 10:18:36 admin logged in.
+08.12.2024 10:47:45 admin added new inventory entry with 10 Aspirin 500mg (ID: 1))
+08.12.2024 10:47:45 admin added new inventory entry with 10 Paracetamol 500mg (ID: 2))
+08.12.2024 10:47:45 admin added new inventory entry with 10 Ibuprofen 200mg (ID: 3))
+08.12.2024 10:47:46 admin added purchase transaction ID: 11, invoice number: INV-123
+08.12.2024 10:48:49 admin added new inventory entry with 10 Antibiotic Ointment (ID: 7))
+08.12.2024 10:48:49 admin added new inventory entry with 10 Band-Aids (ID: 8))
+08.12.2024 10:48:49 admin added new inventory entry with 10 Disinfectant Spray (ID: 9))
+08.12.2024 10:48:49 admin added purchase transaction ID: 12, invoice number: INV-568
+08.12.2024 11:20:18 admin logged out.
+08.12.2024 11:20:29 toan logged in.

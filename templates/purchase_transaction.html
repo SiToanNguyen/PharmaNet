@@ -15,6 +15,25 @@
     </a>
 
     <h2>Purchase Transaction List</h2>
+
+    <!-- Search Form -->
+    <form method="GET" action="{{ url_for('purchase_transaction.purchase_transaction_page') }}" class="search-form">
+        <label for="invoice">Invoice:</label>
+        <input type="text" name="invoice" value="{{ request.args.get('invoice', '') }}">
+
+        <label for="manufacturer">Manufacturer:</label>
+        <input type="text" name="manufacturer" value="{{ request.args.get('manufacturer', '') }}">
+
+        <label for="from_date">From:</label>
+        <input type="date" name="from_date" value="{{ request.args.get('from_date', '') }}">
+
+        <label for="to_date">To:</label>
+        <input type="date" name="to_date" value="{{ request.args.get('to_date', '') }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
     <table border="1">
         <tr>
             <th>ID</th>
@@ -45,7 +64,7 @@
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
-                                    <th>Price (€)</th>
+                                    <th>Purchase Price (€)</th>
                                     <th>Quantity</th>
                                     <th>Expiry Date</th>
                                 </tr>
@@ -60,9 +79,6 @@
         </tr>
         {% endfor %}
     </table>
-
-    <br>
-    <a href="{{ url_for('index') }}">Return to the main page</a>
 
     <!-- JavaScript -->
     <script>

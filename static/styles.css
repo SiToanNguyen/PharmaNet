@@ -20,6 +20,10 @@ h1 {
     color: #f0f0f0;
 }
 
+.expired {
+    color: red;
+}
+
 /* Link Styles */
 a {
     color: #90caf9; 
@@ -150,6 +154,13 @@ tr:hover {
     color: #ffffff;            
 }
 
+.nav-button.active {
+    background-color: #007bff; /* Highlight color */
+    color: white; /* Text color */
+    font-weight: bold;
+    border-radius: 5px; /* Optional for rounded edges */
+}
+
 /* Style for disabled input fields */
 input[readonly] {
     background-color: #f0f0f0; /* Bright grey */
@@ -273,4 +284,55 @@ button:hover {
 
 .close-btn {
     align-self: flex-end; /* Align the Close button to the right */
+}
+
+/* Search Form Styles (Horizontal Layout) */
+.search-form {
+    display: flex;
+    flex-wrap: wrap; /* Ensure wrapping on small screens */
+    gap: 10px; /* Add spacing between fields */
+    align-items: center; /* Align fields vertically in the center */
+}
+
+.search-form input,
+.search-form select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #444;
+    color: #d1d1d1;
+    box-sizing: border-box; /* Consistent width calculation */
+    flex: 1; /* Allow fields to resize flexibly */
+    min-width: 150px; /* Ensure minimum width for inputs */
+}
+
+.search-form button {
+    background-color: #4d90f0;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 0; /* Keep button size fixed */
+    min-width: 100px; /* Minimum size for the button */
+}
+
+/* Button Hover Effects */
+.search-form button:hover {
+    background-color: #90caf9;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .search-form {
+        flex-direction: column; /* Stack fields vertically on small screens */
+        gap: 15px;
+    }
+
+    .search-form button {
+        width: 100%; /* Button spans full width on small screens */
+    }
 }

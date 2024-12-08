@@ -24,14 +24,14 @@
 
             <!-- Transaction Date -->
             <label for="transaction_date">Transaction Date</label>
-            <input type="date" id="transaction_date" name="transaction_date" required>          
+            <input type="date" id="transaction_date" name="transaction_date" required>
 
             <!-- Sold products table -->
             <h3>Sold Products</h3>
             <table id="productsTable">
                 <thead>
-                    <tr>                        
-                        <th>manufacturer</th>
+                    <tr>
+                        <th>Manufacturer</th>
                         <th>Product</th>
                         <th>Price (€)</th>
                         <th>Expiry Date</th>
@@ -42,7 +42,7 @@
                 <tbody>
                     <tr class="productRow">
                         <td>
-                            <select class="manufacturerDropdown" name="manufacturer[]" onchange="updateProductDropdown(this)">
+                            <select class="manufacturerDropdown" name="manufacturer[]" onchange="updateProductDropdown(this)" required>
                                 <option value="" disabled selected>Select a manufacturer</option>
                                 {% for manufacturer in manufacturers %}
                                 <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
@@ -50,10 +50,10 @@
                             </select>
                         </td>
                         <td>
-                            <select class="productDropdown" name="product[]" onchange="updateProductDetails(this)" disabled>
+                            <select class="productDropdown" name="product[]" onchange="updateProductDetails(this)" disabled required>
                                 <option value="" disabled selected>Select a product</option>
                             </select>
-                        </td>                                               
+                        </td>
                         <td>
                             <input type="number" class="productPrice" name="price[]" step="0.01" readonly>
                         </td>
@@ -90,20 +90,20 @@
                 document.getElementById('transaction_date').value = today;
             };
 
-            const inventoryDetails = JSON.parse('{{ inventory | tojson | safe }}');
+            const inventoryDetails = JSON.parse('{{ inventory | tojson | safe }}') || [];
+            console.log("Loaded Inventory Details:", inventoryDetails);
 
+            // Update product dropdown based on manufacturer selection
             function updateProductDropdown(manufacturerSelect) {
                 const manufacturerId = manufacturerSelect.value;
                 const productDropdown = manufacturerSelect.closest('tr').querySelector('.productDropdown');
                 const expiryDropdown = manufacturerSelect.closest('tr').querySelector('.productExpiryDate');
 
-                // Reset dropdowns
                 productDropdown.innerHTML = '<option value="" disabled selected>Select a product</option>';
                 expiryDropdown.innerHTML = '<option value="" disabled selected>Select an expiry date</option>';
                 expiryDropdown.disabled = true;
 
                 if (manufacturerId) {
-                    // Populate product dropdown
                     const products = inventoryDetails.filter(item => item.manufacturer_id == manufacturerId);
                     products.forEach(product => {
                         const option = document.createElement('option');
@@ -115,43 +115,50 @@
                 }
             }
 
+            // Update product details based on product selection
             function updateProductDetails(productSelect) {
                 const productId = productSelect.value;
                 const row = productSelect.closest('tr');
                 const expiryDropdown = row.querySelector('.productExpiryDate');
                 const priceInput = row.querySelector('.productPrice');
 
-                // Reset expiry dropdown
                 expiryDropdown.innerHTML = '<option value="" disabled selected>Select an expiry date</option>';
                 priceInput.value = '';
 
                 if (productId) {
-                    // Populate expiry dates
                     const product = inventoryDetails.find(item => item.product_id == productId);
 
-                    // Update price
-                    priceInput.value = product.price;
+                    if (product) {
+                        priceInput.value = product.price;
 
-                    product.expiry_dates.forEach(expiry => {
-                        const option = document.createElement('option');
-                        option.value = expiry.expiry_date;
-                        option.textContent = `${expiry.expiry_date} (Available: ${expiry.quantity})`;
-                        expiryDropdown.appendChild(option);
-                    });
-                    expiryDropdown.disabled = false;
+                        product.expiry_dates.forEach(expiry => {
+                            const option = document.createElement('option');
+                            option.value = expiry.expiry_date;
+                            option.textContent = `${expiry.expiry_date} (Available: ${expiry.quantity})`;
+                            expiryDropdown.appendChild(option);
+                        });
+                        expiryDropdown.disabled = false;
+                    } else {
+                        alert('No details found for the selected product.');
+                    }
                 }
             }
 
+            // Add a new row
             function addRow() {
                 const tableBody = document.getElementById('productsTable').querySelector('tbody');
                 const newRow = document.querySelector('.productRow').cloneNode(true);
 
                 newRow.querySelectorAll('select, input').forEach(input => {
                     input.value = '';
+                    if (input.classList.contains('productDropdown') || input.classList.contains('productExpiryDate')) {
+                        input.disabled = true;
+                    }
                 });
                 tableBody.appendChild(newRow);
             }
 
+            // Remove a row
             function removeRow(button) {
                 const row = button.closest('tr');
                 const tableBody = row.parentNode;

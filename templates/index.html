@@ -14,34 +14,60 @@
     
     <nav>
         <ul class="nav-menu">
-            {% if username == 'admin' %} <!-- Only admin can see the User button -->
-            <li><a class="nav-button" href="{{ url_for('user.user_page') }}">User</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'index' %}active{% endif %}" 
+                href="{{ url_for('index') }}">Home</a></li>
+            {% if username == 'admin' %}
+            <li><a class="nav-button {% if request.endpoint == 'user.user_page' %}active{% endif %}" 
+                href="{{ url_for('user.user_page') }}">User</a></li>
             {% endif %}
-            <li><a class="nav-button" href="{{ url_for('manufacturer.manufacturer_page') }}">Manufacturer</a></li>
-            <li><a class="nav-button" href="{{ url_for('product.product_page') }}">Product</a></li>
-            <li><a class="nav-button" href="{{ url_for('inventory.inventory_page') }}">Inventory</a></li>
-            <li><a class="nav-button" href="{{ url_for('purchase_transaction.purchase_transaction_page') }}">Purchase Transaction</a></li>
-            <li><a class="nav-button" href="{{ url_for('sale_transaction.sale_transaction_page') }}">Sale Transaction</a></li>
-            <li><a class="nav-button" href="{{ url_for('report.report_page') }}">Report</a></li>
-            <li><a class="nav-button" href="{{ url_for('activity_log.activity_log_page') }}">Activity Log</a></li>
-            <li><a class="nav-button" href="{{ url_for('login.logout') }}">Log out</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'manufacturer.manufacturer_page' %}active{% endif %}" 
+                href="{{ url_for('manufacturer.manufacturer_page') }}">Manufacturer</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'product.product_page' %}active{% endif %}" 
+                href="{{ url_for('product.product_page') }}">Product</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'inventory.inventory_page' %}active{% endif %}" 
+                href="{{ url_for('inventory.inventory_page') }}">Inventory</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'purchase_transaction.purchase_transaction_page' %}active{% endif %}" 
+                href="{{ url_for('purchase_transaction.purchase_transaction_page') }}">Purchase Transaction</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'sale_transaction.sale_transaction_page' %}active{% endif %}" 
+                href="{{ url_for('sale_transaction.sale_transaction_page') }}">Sale Transaction</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'report.report_page' %}active{% endif %}" 
+                href="{{ url_for('report.report_page') }}">Report</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'activity_log.activity_log_page' %}active{% endif %}" 
+                href="{{ url_for('activity_log.activity_log_page') }}">Activity Log</a></li>
+            <li><a class="nav-button {% if request.endpoint == 'login.logout' %}active{% endif %}" 
+                href="{{ url_for('login.logout') }}">Log out</a></li>
         </ul>
-    </nav>
+    </nav>    
         
     <div class="content">
         {% block content %}
-        Incoming features:
-        <ul>
-            <li>Sale transaction</li>
-            <li>Adjustment transaction</li>
-            <li>Search transactions with details</li>
-            <li>Import and export transactions using JSON</li>
-            <li>Export reports to PDF</li>
-            <li>Change Activity Log from a string in text file to variables and stored in database</li>
-            <li>...</li>
-        </ul>
+        <h2>Expiring Products</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Inventory ID</th>
+                    <th>Manufacturer Name</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in expiring_products %}
+                <tr>
+                    <td>{{ product[0] }}</td>
+                    <td>{{ product[1] }}</td>
+                    <td>{{ product[2] }}</td>
+                    <td>{{ product[3] }}</td>
+                    <td class="{% if product[4] < current_date %}expired{% else %}not-expired{% endif %}">
+                        {{ product[4] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% endblock %}
-    </div>
+    </div>    
     <hr>
     <footer>
         <p class="center-align">Si Toan Nguyen</p>

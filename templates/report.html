@@ -68,17 +68,14 @@
     <p><strong>Total Sale Value (€):</strong> {{ "%.2f" | format(report_data.total_sale_value) }}</p>
 
     <p><strong>Net Value (€):</strong> {{ "%.2f" | format(report_data.net_value) }}</p>
+    
+    <!-- Export to PDF form -->
+    <form method="POST" action="/export_pdf">
+        <input type="hidden" name="from_date" value="{{ report_data.from_date }}">
+        <input type="hidden" name="to_date" value="{{ report_data.to_date }}">
+        <button type="submit">Export to PDF</button>
+    </form>    
     {% endif %}
-
-    <a href="{{ url_for('index') }}">Return to the main page</a>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('from_date').value = today;
-            document.getElementById('to_date').value = today;
-        });
-    </script>
     {% endblock %}
 </body>
 </html>

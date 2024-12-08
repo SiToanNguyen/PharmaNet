@@ -125,26 +125,26 @@ def insert_products():
 
         # Dummy products for each manufacturer
         products_data = [
-            ("Aspirin 500mg", 1, 5.99, "Pain relief medication"),
-            ("Paracetamol 500mg", 1, 4.49, "Fever and pain relief"),
-            ("Ibuprofen 200mg", 1, 7.99, "Anti-inflammatory medication"),
+            ("Aspirin 500mg", 1, 3.50, 5.99, "Pain relief medication"),  # Added purchase_price 3.50
+            ("Paracetamol 500mg", 1, 2.80, 4.49, "Fever and pain relief"),  # Added purchase_price 2.80
+            ("Ibuprofen 200mg", 1, 5.20, 7.99, "Anti-inflammatory medication"),  # Added purchase_price 5.20
             
-            ("Cough Syrup", 2, 8.99, "Cough and cold relief"),
-            ("Vitamin C 1000mg", 2, 12.49, "Immune support supplement"),
-            ("Cough Tablets", 2, 5.79, "Cough suppression tablets"),
+            ("Cough Syrup", 2, 6.00, 8.99, "Cough and cold relief"),  # Added purchase_price 6.00
+            ("Vitamin C 1000mg", 2, 9.30, 12.49, "Immune support supplement"),  # Added purchase_price 9.30
+            ("Cough Tablets", 2, 3.60, 5.79, "Cough suppression tablets"),  # Added purchase_price 3.60
             
-            ("Antibiotic Ointment", 3, 3.99, "Topical antibiotic ointment"),
-            ("Band-Aids", 3, 2.49, "Adhesive bandages"),
-            ("Disinfectant Spray", 3, 6.99, "Surface disinfectant spray")
+            ("Antibiotic Ointment", 3, 2.50, 3.99, "Topical antibiotic ointment"),  # Added purchase_price 2.50
+            ("Band-Aids", 3, 1.60, 2.49, "Adhesive bandages"),  # Added purchase_price 1.60
+            ("Disinfectant Spray", 3, 4.20, 6.99, "Surface disinfectant spray")  # Added purchase_price 4.20
         ]
 
         # Insert each dummy product into the products table
         for product in products_data:
-            name, manufacturer_id, price, description = product
+            name, manufacturer_id, purchase_price, price, description = product
             c.execute('''
-                INSERT INTO products (name, manufacturer_id, price, description, removed)
-                VALUES (?, ?, ?, ?, ?)
-            ''', (name, manufacturer_id, price, description, 0))  # removed set to 0
+                INSERT INTO products (name, manufacturer_id, purchase_price, price, description, removed)
+                VALUES (?, ?, ?, ?, ?, ?)
+            ''', (name, manufacturer_id, purchase_price, price, description, 0))  # removed set to 0
 
         print("Products have been added successfully.")
 
@@ -180,7 +180,7 @@ def random_date_in_month(year, month):
     return random_date.date()
 
 # Insert purchase transactions
-def insert_purchase_transactions():
+def insert_purchase_transactions(n):
     try:
         conn = get_db_connection()
         c = conn.cursor()
@@ -194,10 +194,10 @@ def insert_purchase_transactions():
             manufacturer_id = manufacturer[0]
 
             # Create two purchase transactions for this manufacturer
-            for i in range(2):
+            for i in range(n):
                 # Random transaction date in different months
                 month = random.randint(1, 12)
-                year = random.randint(2025, 2035)
+                year = random.randint(2024, 2034)
                 transaction_date = random_date_in_month(2024, month)
 
                 # Generate invoice number
@@ -205,7 +205,7 @@ def insert_purchase_transactions():
 
                 # Get random products for this manufacturer
                 c.execute('''
-                    SELECT id, price FROM products WHERE manufacturer_id = ?
+                    SELECT id, purchase_price FROM products WHERE manufacturer_id = ?
                 ''', (manufacturer_id,))
                 products = c.fetchall()
 
@@ -254,22 +254,20 @@ def insert_purchase_transactions():
             conn.close()
 
 # Insert sale transactions
-def insert_sale_transactions():
+def insert_sale_transactions(n):
     try:
         conn = get_db_connection()
-        c = conn.cursor()
-
-        fake = Faker('de_DE') # Generate a random German name
-        name = fake.first_name() + " " + fake.last_name()
+        c = conn.cursor()        
 
         # Create 5 sale transactions
-        for i in range(5):
+        for i in range(n):
             # Transaction date (random day in 2024)
             transaction_date = random_date_in_month(2024, random.randint(1, 12))
 
             # Determine if this transaction has a customer and prescription
-            if i == 4:  # 5th transaction has customer and prescription
-                customer_name = name
+            if random.randint(1, 5) == 1:  # 1 in 5 chance to have a customer and prescription
+                fake = Faker('de_DE') # Generate a random German name
+                customer_name = fake.first_name() + " " + fake.last_name()
                 prescription_notes = "Prescription notes example"
             else:
                 customer_name = None
@@ -335,10 +333,10 @@ def insert_sale_transactions():
             conn.close()
 
 if __name__ == "__main__":
-    # drop_tables()
+    drop_tables()
     init_db()
     insert_users()
     insert_manufacturers()
     insert_products()
-    insert_purchase_transactions()
-    insert_sale_transactions()
+    insert_purchase_transactions(3) # n transactions per manufacturer
+    insert_sale_transactions(15) # n transaction, and 1 in 5 chance to have a customer and prescription

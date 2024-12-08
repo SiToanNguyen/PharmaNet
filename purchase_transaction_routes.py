@@ -1,21 +1,63 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from utils import get_db_connection, log_activity, handle_import_inventory
+from utils import get_db_connection, log_activity
 from datetime import datetime
 
 purchase_transaction_bp = Blueprint('purchase_transaction', __name__)
 
 @purchase_transaction_bp.route('/purchase_transaction', methods=['GET', 'POST'])
 def purchase_transaction_page():
-    # Main page for displaying and adding purchase transactions
-    if request.method == 'POST':
-        error_message = handle_add_purchase_transaction(request.form)
-        if error_message:
-            return render_template('purchase_transaction.html', error_message=error_message)
-    
-    # Fetch all transactions
-    transactions = get_all_purchase_transactions()
-    
-    return render_template('purchase_transaction.html', purchase_transactions=transactions)
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Extract search parameters
+    invoice = request.args.get('invoice', '').strip()
+    manufacturer = request.args.get('manufacturer', '').strip()
+    from_date = request.args.get('from_date', '').strip()
+    to_date = request.args.get('to_date', '').strip()
+
+    # Base query
+    query = '''
+        SELECT 
+            pt.purchase_transaction_id AS id, 
+            pt.invoice_number, 
+            m.name AS manufacturer_name, 
+            pt.transaction_date, 
+            pt.total_price
+        FROM 
+            purchase_transactions AS pt
+        JOIN 
+            manufacturers AS m ON pt.manufacturer_id = m.id
+        WHERE 1=1
+    '''
+    params = []
+
+    # Add filters for invoice
+    if invoice:
+        query += " AND pt.invoice_number LIKE ?"
+        params.append(f"%{invoice}%")
+
+    # Add filters for manufacturer
+    if manufacturer:
+        query += " AND m.name LIKE ?"
+        params.append(f"%{manufacturer}%")
+
+    # Add filters for date range
+    if from_date:
+        query += " AND pt.transaction_date >= ?"
+        params.append(from_date)
+    if to_date:
+        query += " AND pt.transaction_date <= ?"
+        params.append(to_date)
+
+    # Execute query
+    cursor.execute(query, params)
+    transactions = cursor.fetchall()
+    conn.close()
+
+    return render_template(
+        'purchase_transaction.html',
+        purchase_transactions=transactions
+    )
 
 @purchase_transaction_bp.route('/purchase_transaction/add', methods=['GET', 'POST'])
 def add_purchase_transaction_page():
@@ -73,16 +115,44 @@ def handle_add_purchase_transaction(form_data):
             )
             transaction_id = c.lastrowid
 
+            # Process each product in the transaction
             for product_id, quantity, price, expiry_date in zip(products, quantities, prices, expiry_dates):
+                # Insert into purchase_transaction_items
                 c.execute(
                     'INSERT INTO purchase_transaction_items (purchase_transaction_id, product_id, quantity, price, expiry_date) VALUES (?, ?, ?, ?, ?)',
                     (transaction_id, product_id, quantity, price, expiry_date)
-                )                
+                )
+
+                # Get the product name for logging
+                c.execute('SELECT name FROM products WHERE id = ?', (product_id,))
+                product_name = c.fetchone()[0]  # Fetch product name directly
+
+                # Handle inventory update
+                c.execute('''
+                    SELECT inventory_id, quantity
+                    FROM inventory
+                    WHERE product_id = ? AND expiry_date = ?
+                ''', (product_id, expiry_date))
+                existing_inventory = c.fetchone()
+
+                if existing_inventory:
+                    inventory_id, current_quantity = existing_inventory
+                    new_quantity = current_quantity + int(quantity)
+                    c.execute('''
+                        UPDATE inventory
+                        SET quantity = ?
+                        WHERE inventory_id = ?
+                    ''', (new_quantity, inventory_id))
+                    log_activity(f"updated inventory entry {inventory_id} with {quantity} {product_name} (ID: {product_id}) (New total: {new_quantity})")
+                else:
+                    c.execute('''
+                        INSERT INTO inventory (product_id, quantity, expiry_date)
+                        VALUES (?, ?, ?)
+                    ''', (product_id, quantity, expiry_date))
+                    log_activity(f"added new inventory entry with {quantity} {product_name} (ID: {product_id}))")
+
             conn.commit()
-            log_activity(f"added the purchase transaction ID: {transaction_id}, invoice number: {invoice_number}")
-            
-            for product_id, quantity, expiry_date in zip(products, quantities, expiry_dates):
-                handle_import_inventory(product_id, quantity, expiry_date)
+            log_activity(f"added purchase transaction ID: {transaction_id}, invoice number: {invoice_number}")
             
         return None
     except Exception as e:
@@ -98,7 +168,7 @@ def get_products_by_manufacturer(manufacturer_id):
     # Get all active products of the selected manufacturer
     with get_db_connection() as conn:
         return conn.execute(
-            'SELECT id, name, price FROM products WHERE manufacturer_id = ? AND removed = 0',
+            'SELECT id, name, purchase_price FROM products WHERE manufacturer_id = ? AND removed = 0',
             (manufacturer_id,)
         ).fetchall()
 

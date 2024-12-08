@@ -15,11 +15,26 @@
     </a>
 
     <h2>Product List</h2>
+
+    <!-- Search Form -->
+    <form class="search-form" action="{{ url_for('product.product_page') }}" method="GET" class="search-form">
+        <label for="product_name">Product:</label>
+        <input type="text" id="product_name" name="product_name" value="{{ request.args.get('product_name', '') }}">
+
+        <label for="manufacturer_name">Manufacturer:</label>
+        <input type="text" id="manufacturer_name" name="manufacturer_name" value="{{ request.args.get('manufacturer_name', '') }}">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+    
     <table border="1">
         <tr>
             <th>Product ID</th>
             <th>Product Name</th>
             <th>Manufacturer</th>
+            <th>Purchase Price (€)</th>
             <th>Price (€)</th>
             <th>Actions</th>
         </tr>
@@ -28,6 +43,7 @@
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.manufacturer['name'] }}</td>
+            <td>{{ "%.2f" | format(product.purchase_price) }}</td>
             <td>{{ "%.2f" | format(product.price) }}</td>
             <td>
                 <!-- Button to open the "Edit Product" page -->
@@ -40,9 +56,6 @@
         </tr>
         {% endfor %}
     </table>
-
-    <br>
-    <a href="{{ url_for('index') }}">Return to the main page</a>
 
     <!-- JavaScript to handle product removal -->
     <script>

@@ -23,7 +23,10 @@
                 {% for manufacturer in manufacturers %}
                     <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
                 {% endfor %}
-            </select>                    
+            </select>
+            
+            <label for="purchasePrice">Purchase Price (€)</label>
+            <input type="number" id="purchasePrice" name="purchase_price" step="0.01" required>
 
             <label for="price">Price (€)</label>
             <input type="number" id="price" name="price" step="0.01" required>

@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, url_for, render_template, session, send_from_directory
 from utils import init_db, get_db_connection
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -42,10 +43,35 @@ def check_login():
 def inject_user():
     return dict(username=session.get('username'))
 
-@app.route('/')
+@app.route('/') # Display expiring products
 def index():
     username = session.get('username')
-    return render_template('index.html', username=username)
+    current_date = datetime.now().strftime('%Y-%m-%d')  # Current date in YYYY-MM-DD format
+
+    # Fetch expiring products
+    with get_db_connection() as conn:
+        c = conn.cursor()
+        c.execute('''
+            SELECT 
+                inventory.inventory_id,
+                manufacturers.name AS manufacturer_name,
+                products.name AS product_name,
+                inventory.quantity,
+                inventory.expiry_date
+            FROM 
+                inventory
+            JOIN 
+                products ON inventory.product_id = products.id
+            JOIN 
+                manufacturers ON products.manufacturer_id = manufacturers.id
+            WHERE 
+                expiry_date <= DATE('now', '+30 days') AND inventory.quantity > 0
+            ORDER BY 
+                expiry_date ASC;
+        ''')
+        expiring_products = c.fetchall()
+
+    return render_template('index.html', username=username, expiring_products=expiring_products, current_date=current_date)
 
 # For the CSS in "static" to reach the image in "images"
 @app.route('/images/<path:filename>')

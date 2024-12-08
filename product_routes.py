@@ -1,11 +1,60 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from utils import get_db_connection, log_activity
+import sqlite3
 
 product_bp = Blueprint('product', __name__)
 
 @product_bp.route('/product', methods=['GET', 'POST'])
 def product_page():
     error_message = None
+
+    # Get search parameters from the request
+    product_name = request.args.get('product_name', '').strip()
+    manufacturer_name = request.args.get('manufacturer_name', '').strip()
+
+    # Base query
+    query = '''
+        SELECT 
+            p.id AS product_id, 
+            p.name AS product_name, 
+            m.name AS manufacturer_name, 
+            p.purchase_price AS product_purchase_price,
+            p.price AS product_price,
+            m.id AS manufacturer_id
+        FROM products p
+        JOIN manufacturers m ON p.manufacturer_id = m.id
+        WHERE 1=1
+    '''
+    params = []
+
+    # Add filters dynamically based on user input
+    if product_name:
+        query += " AND p.name LIKE ?"
+        params.append(f"%{product_name}%")
+    if manufacturer_name:
+        query += " AND m.name LIKE ?"
+        params.append(f"%{manufacturer_name}%")
+
+    # Execute the query
+    try:
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            products = cursor.fetchall()
+
+            # Format products to have a 'manufacturer' key as a dictionary
+            products = [
+                {
+                    'id': row['product_id'],
+                    'name': row['product_name'],
+                    'purchase_price': row['product_purchase_price'],
+                    'price': row['product_price'],
+                    'manufacturer': {'id': row['manufacturer_id'], 'name': row['manufacturer_name']}
+                }
+                for row in products
+            ]
+    except sqlite3.OperationalError as e:
+        return f"SQL error: {e}", 500
     
     if request.method == 'POST':
         if 'product_name' in request.form:
@@ -15,7 +64,6 @@ def product_page():
             if product_id:
                 error_message = remove_product(int(product_id))
     
-    products = get_all_products()
     return render_template('product.html', products=products, error_message=error_message)
 
 # Get all manufacturers, who are not removed
@@ -48,11 +96,12 @@ def add_product_page():
 def handle_add_product(form_data):
     product_name = form_data.get('product_name')
     manufacturer_id = form_data.get('manufacturer_id') 
+    purchase_price = form_data.get('purchase_price')
     price = form_data.get('price')
     description = form_data.get('description', '')  # Handle empty description field
 
-    if not product_name or not manufacturer_id or not price:
-        return "Product name, manufacturer, and price cannot be empty."
+    if not product_name or not manufacturer_id or not purchase_price or not price:
+        return "Product name, manufacturer, purchase price, and price cannot be empty."
 
     # Check if the product name already exists in the database
     with get_db_connection() as conn:
@@ -66,9 +115,9 @@ def handle_add_product(form_data):
                 # Reactivate the product
                 c.execute(''' 
                     UPDATE products 
-                    SET manufacturer_id = ?, price = ?, description = ?, removed = 0
+                    SET manufacturer_id = ?, purchase_price = ?, price = ?, description = ?, removed = 0
                     WHERE id = ? 
-                ''', (manufacturer_id, price, description, product_id))
+                ''', (manufacturer_id, purchase_price, price, description, product_id))
                 
                 # Log price history for reactivated product
                 c.execute(
@@ -90,8 +139,8 @@ def handle_add_product(form_data):
 
     # Insert product into the database if no duplicate name is found
     try:
-        c.execute('INSERT INTO products (name, manufacturer_id, price, description) VALUES (?, ?, ?, ?)',
-                  (product_name, manufacturer_id, price, description))
+        c.execute('INSERT INTO products (name, manufacturer_id, purchase_price, price, description) VALUES (?, ?, ?, ?)',
+                  (product_name, manufacturer_id, purchase_price, price, description))
         
         product_id = c.lastrowid  # Get the newly added product's ID
         
@@ -121,10 +170,11 @@ def edit_product(product_id):
     if request.method == 'POST':
         product_name = request.form.get('product_name')
         manufacturer_id = request.form.get('manufacturer_id')
+        purchase_price = request.form.get('purchase_price')
         price = request.form.get('price')
         description = request.form.get('description')
 
-        if not product_name or not manufacturer_id or not price:
+        if not product_name or not manufacturer_id or not purchase_price or not price:
             error_message = "Product name, manufacturer, and price cannot be empty."
             return render_template('edit_product.html', product=get_product_by_id(product_id), error_message=error_message)
 
@@ -145,8 +195,8 @@ def edit_product(product_id):
                 return render_template('edit_product.html', product=get_product_by_id(product_id), error_message=error_message)
             
             # If no duplicate name, proceed to update the product
-            c.execute('UPDATE products SET name = ?, manufacturer_id = ?, price = ?, description = ? WHERE id = ?',
-                      (product_name, manufacturer_id, price, description, product_id))            
+            c.execute('UPDATE products SET name = ?, manufacturer_id = ?, price = ?, purchase_price = ?, description = ? WHERE id = ?',
+                      (product_name, manufacturer_id, price, purchase_price, description, product_id))          
                         
             # Log price change if it differs
             if price != current_price:
@@ -184,17 +234,17 @@ def get_all_products():
     with get_db_connection() as conn:
         c = conn.cursor()
         c.execute(''' 
-            SELECT p.id, p.name, p.manufacturer_id, p.price, m.name AS manufacturer_name, m.id AS manufacturer_id
+            SELECT p.id, p.name, p.manufacturer_id, p.purchase_price, p.price, m.name AS manufacturer_name, m.id AS manufacturer_id
             FROM products p
             JOIN manufacturers m ON p.manufacturer_id = m.id
             WHERE p.removed = 0
         ''')
         products = c.fetchall()
-        return [dict(id=row[0], name=row[1], manufacturer={'id': row[5], 'name': row[4]}, price=row[3]) for row in products]
+        return [dict(id=row[0], name=row[1], manufacturer={'id': row[6], 'name': row[5]}, purchase_price=row[3], price=row[4]) for row in products]
 
 def get_product_by_id(product_id):
     with get_db_connection() as conn:
         c = conn.cursor()
-        c.execute('SELECT id, name, manufacturer_id, price, description FROM products WHERE id = ?', (product_id,))
+        c.execute('SELECT id, name, manufacturer_id, purchase_price, price, description FROM products WHERE id = ?', (product_id,))
         row = c.fetchone()
-        return dict(id=row[0], name=row[1], manufacturer_id=row[2], price=row[3], description=row[4]) if row else None
+        return dict(id=row[0], name=row[1], manufacturer_id=row[2], purchase_price=row[3], price=row[4], description=row[5]) if row else None
