@@ -1,8 +1,7 @@
 # Here are the common functions that may be used in different files
-import sqlite3
+import sqlite3, hashlib
 from flask import session
 from datetime import datetime
-
 # Initialize the database
 def init_db():
     conn = sqlite3.connect('database.db')
@@ -139,3 +138,8 @@ def log_activity(activity):
     timestamp = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
     with open('activity_log.txt', 'a') as f:
         f.write(f'{timestamp} {username} {activity}\n')
+
+
+def hash_password(password):
+    # Hash a password using SHA256.
+    return hashlib.sha256(password.encode('utf-8')).hexdigest()

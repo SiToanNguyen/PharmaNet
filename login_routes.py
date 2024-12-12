@@ -1,13 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 import sqlite3
-from utils import get_db_connection, log_activity
-import hashlib
+from utils import get_db_connection, log_activity, hash_password
 
 login_bp = Blueprint('login', __name__)
 
-def hash_password(password):
-    # Hash a password using SHA256.
-    return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
 @login_bp.route('/login', methods=['GET', 'POST'])
 def login():

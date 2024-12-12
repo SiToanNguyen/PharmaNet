@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, session
-from utils import get_db_connection, log_activity
+from utils import get_db_connection, log_activity, hash_password
 
 user_bp = Blueprint('user', __name__)
 
@@ -54,6 +54,9 @@ def handle_add_user(form_data):
 
     if not username or not password:
         return "Username and password cannot be empty."
+    
+    # Hash the password before storing it
+    hashed_password = hash_password(password)
 
     # Check if the username already exists in the database
     with get_db_connection() as conn:
@@ -67,7 +70,7 @@ def handle_add_user(form_data):
                 # Reactivate the user
                 c.execute('''UPDATE users 
                              SET password = ?, removed = 0
-                             WHERE id = ?''', (password, user_id))
+                             WHERE id = ?''', (hashed_password, user_id))
                 conn.commit()
 
                 # Write log when reactivating a user
@@ -78,7 +81,7 @@ def handle_add_user(form_data):
         else:
             # No existing user, proceed to insert the new user
             try:
-                c.execute('''INSERT INTO users (username, password) VALUES (?, ?)''', (username, password))
+                c.execute('''INSERT INTO users (username, password) VALUES (?, ?)''', (username, hashed_password))
                 conn.commit()
                 user_id = c.lastrowid  # Get the newly added user's ID
 

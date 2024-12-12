@@ -62,7 +62,8 @@ def insert_users():
         users = [
             ('admin', 'hsbochum!'),
             ('koehn', 'KhZamBASe18!'),
-            ('toan', 'toan5987ng')
+            ('toan', 'toan5987ng'),
+            ('guest', 'currywurst!')
         ]
 
         for username, password in users:
@@ -339,4 +340,4 @@ if __name__ == "__main__":
     insert_manufacturers()
     insert_products()
     insert_purchase_transactions(3) # n transactions per manufacturer
-    insert_sale_transactions(15) # n transaction, and 1 in 5 chance to have a customer and prescription
+    insert_sale_transactions(30) # n transaction, and 1 in 5 chance to have a customer and prescription
